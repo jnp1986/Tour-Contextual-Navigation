@@ -15,6 +15,13 @@ and open the template in the editor.
         <!-- include Cycle plugin -->
         <script type="text/javascript" src="http://malsup.github.com/jquery.cycle.all.js"></script>
         <script type="text/javascript">
+            
+            /*This code is currently redundant and unscalable. 
+             * TODOS: Store events and actions in a 2D array
+             * Encapsulate some of the redundant code
+             * Figure out arrows/gradient
+             * Figure out arrow placement
+             */
 
             var CampusLocation = function () {
                 var currentState = new Beginning(this);
