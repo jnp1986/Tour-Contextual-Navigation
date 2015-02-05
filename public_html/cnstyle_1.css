@@ -1,0 +1,16 @@
+.wt_arrow {
+    position: absolute;
+    left: 30%;
+    z-index: 101; 
+    margin-top: 325px;  
+}
+
+/* This hover gradient is lame. Wonder if there's a way to mask over only the 
+non-transparent portion of the png? Otherwise we can just replace the whole
+image with orange arrows on hover*/
+.btn:hover {
+    -webkit-mask-image: url(imgs/trailEnd_turnRight.png);
+    background-image: -webkit-linear-gradient(bottom, #f7991d 60%, #ffc30f 90%);
+    background-image: linear-gradient(to top, #f7991d 60%, #ffc30f 90%);
+}
+
