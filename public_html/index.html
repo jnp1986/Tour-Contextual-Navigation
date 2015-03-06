@@ -15,118 +15,62 @@ and open the template in the editor.
         <!-- include Cycle plugin -->
         <script type="text/javascript" src="http://malsup.github.com/jquery.cycle.all.js"></script>
         <script type="text/javascript">
-            
-            /*This code is currently redundant and unscalable. 
-             * TODOS: Store events and actions in a 2D array
-             * Encapsulate some of the redundant code
-             * Figure out arrows/gradient
-             * Figure out arrow placement
-             */
+            $(function () { // this is a shortcut for document ready
 
-            var CampusLocation = function () {
-                var currentState = new Beginning(this);
-                this.change = function (state) {
-                    currentState = state;
-                    document.getElementById("arrow").onclick = function fun() {
-                        currentState.go();
+                $('#tour_images img').hide().load(function () {
+                    $(this).fadeIn(500);
+                });
+
+
+                $("#backtostart").hide();
+                var locations = [{
+                        moveForward: function () {
+                            $("#backtostart").hide();
+                            //Do stuff based on state
+                        }
+                    }, {
+                        moveForward: function () {
+                            //Do stuff based on state
+                        }
+                    }, {
+                        moveForward: function () {
+                            //Do stuff based on state
+                        }
+                    }, {
+                        moveForward: function () {
+                            //Do stuff based on state
+                        }
+                    }, {
+                        moveForward: function () {
+                            alert("You have reached the end of the current tour");
+                        }
+                    }];
+                var counter = 0;
+
+
+                $('.arrow').click(function () {
+                    counter = (counter + 1) % locations.length; // increment your counter
+                    // the modulus (%) operator resets the counter to 0
+                    // when it reaches the length of the array
+                    locations[counter].moveForward();
+                    $("#home").hide();
+                    $("#backtostart").show();
+
+                    console.log(counter); // the new incremented value
+                });
+                $('#backtostart').click(function () {
+                    counter = 0;
+                    locations[counter].moveForward();
+                    $("#backtostart").hide();
+                });
+                $('.backone').click(function () {
+                    if (counter != 0) {
+                        counter = counter - 1;
+                        locations[counter].moveForward();
                     }
-                    document.getElementById("goback").onclick = function fun() {
-                        currentState.back();
-                    }
-                    document.getElementById("backtostart").onclick = function fun() {
-                        currentState.beginning();
-                    }
-                };
-                this.start = function () {
-                    currentState.go();
-                };
-            }
-
-            var Beginning = function (location) {
-                this.location = location;
-                this.go = function () {
-                    changePhoto("<img src='imgs/taylor.jpg' />");
-                    location.change(new Taylor(location));
-                }
-                this.back = function () {
-                    //beginning so nothing     
-                }
-
-                this.beginning = function () {
-                    //beginning so nothing
-                }
-            };
-            var Taylor = function (location) {
-                this.location = location;
-                this.go = function () {
-                    changePhoto("<img src='imgs/Hurst.jpg' />");
-                    location.change(new Hurst(location));
-                }
-
-                this.back = function () {
-                    changePhoto("<img src='imgs/mountain_man.jpg' />");
-                    location.change(new Beginning(location));
-                }
-
-                this.beginning = function () {
-                    backToStart(location);
-                }
-            };
-            var Hurst = function (location) {
-                this.location = location;
-                this.go = function () {
-                    changePhoto("<img src='imgs/kelley.jpg' />");
-                    location.change(new Kelley(location));
-                }
-                this.back = function () {
-                    changePhoto("<img src='imgs/taylor.jpg' />");
-                    location.change(new Taylor(location));
-                }
-
-                this.beginning = function () {
-                    backToStart(location);
-                }
-            };
-
-            var Kelley = function (location) {
-                this.location = location;
-                this.go = function () {
-                    alert("You have reached the end of the current tour")
-                }
-                this.back = function () {
-                    changePhoto("<img src='imgs/Hurst.jpg' />");
-                    location.change(new Hurst(location));
-                }
-
-                this.beginning = function () {
-                    backToStart(location);
-                }
-            };
-            
-            var backToStart = function (location) {
-                changePhoto("<img src='imgs/mountain_man.jpg' />");
-                location.change(new Beginning(location));
-            }
-
-            var changePhoto = function (str) {
-                var div = $('#tour_images');
-                div.html(str);
-            }
-            
-            function run() {
-                var location = new CampusLocation();
-                location.start();
-            }
-
-            window.onload = function () {
-                document.getElementById("arrow").onclick = function fun() {
-                    run();
-                }
-            }
-            /*
-             * This code from the Cycle plugin may be useful for transitioning between images
-             * 
-             * $('#tour_images').cycle({
+                });
+            });
+         /*$('#tour_images').cycle({
              fx: 'fade',
              speed: 'slow',
              timeout: 0,
@@ -136,19 +80,74 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <div>
-            <div id ="arrow">
-                <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
-            </div>
+        <div id="tour_images" class="pics">
             <div id="backtostart">
-                <button>Go Back to Beginning</button>
+                <a href ="#beginning">
+                    <button>Back to Beginning</button>
+                </a>
             </div>
-            <div id="goback">
-                <button>Go Back</button>
-            </div>
-            <div id="tour_images">
-                <img src="imgs/mountain_man.jpg" />
-            </div>
+            <div id="home">
+                <div class ="arrow">
+                    <a href="#taylor">
+                        <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
+                    </a>
+                </div>
+                <img class="top" src="imgs/mountain_man.jpg" />
+            </div>​
+            <section id="beginning">
+                <div class ="arrow">
+                    <a href="#taylor">
+                        <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
+                    </a>
+                </div>
+                <img class="top" src="imgs/mountain_man.jpg" />
+            </section>​
+            <section id="taylor">
+                <div class="backone">
+                    <a href ="#beginning">
+                        <button>Go Back</button>
+                    </a>
+                </div>
+                <div class="arrow">
+                    <a href="#hurst">
+                        <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
+                    </a>
+                </div>
+                <div>
+                    <img class="bottom" src ="imgs/taylor.jpg" />
+                </div>
+            </section>
+            <section id="hurst">
+                <div class="backone">
+                    <a href ="#taylor">
+                        <button>Go Back</button>
+                    </a>
+                </div>
+                <div class="arrow">
+                    <a href="#kelley">
+                        <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
+                    </a>
+                </div>
+                <div>
+                    <img class="three" src ="imgs/Hurst.jpg" />
+                </div>
+            </section>
+            <section id="kelley">
+                <div class="backone">
+                    <a href ="#hurst">
+                        <button>Go Back</button>
+                    </a>
+                </div>
+                <div class="arrow">
+                    <a href>
+                        <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
+                    </a>
+                    <div>
+                        <img class="four" src ="imgs/kelley.jpg" />
+                    </div>
+            </section>
+
+
             <!-- <div id="tour_images" class="pics">
                 <img src="imgs/mountain_man.jpg" />
                 <img src="imgs/taylor.jpg" />

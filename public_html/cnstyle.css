@@ -14,3 +14,21 @@ image with orange arrows on hover */
     background-image: linear-gradient(to top, #f7991d 60%, #ffc30f 90%);
 }
 
+section{display:none} 
+
+section:target{ display:block;}
+
+
+#tour_images img {
+  position:absolute;
+  left:0;
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+}
+
+#tour_images img.transparent {
+opacity:0;
+}
+
