@@ -1,25 +1,114 @@
+body
+{
+background: #000000; 
+}
+
+.pics{
+    position:absolute;
+    z-index:0;
+}
+
 .wt_arrow {
-    position: absolute;
-    left: 30%;
-    z-index: 101; 
-    margin-top: 325px;  
+    //background-image: url('imgs/trailEnd_turnRight.png');
+    position:absolute;
+    z-index:1;
+    bottom:50%;
+    right:50%;
+    max-width: 10%;
 }
 
 /* This hover gradient is lame. Wonder if there's a way to mask over only the 
 non-transparent portion of the png? Otherwise we can just replace the whole
 image with orange arrows on hover */
 .btn:hover {
-    -webkit-mask-image: url(imgs/trailEnd_turnRight.png);
-    background-image: -webkit-linear-gradient(bottom, #f7991d 60%, #ffc30f 90%);
-    background-image: linear-gradient(to top, #f7991d 60%, #ffc30f 90%);
+    background-image: url('imgs/turnRight_Hover.png');
+    //background-image: -webkit-linear-gradient(bottom, #f7991d 60%, #ffc30f 90%);
+    //background-image: linear-gradient(to top, #f7991d 60%, #ffc30f 90%);
 }
 
-section{display:none} 
+section {
+    opacity: 0;
+    transition: opacity 1.2s ease-in;
+    -o-transition: opacity 1.2s ease-in;
+    -ms-transition: opacity 1.2s ease-in;
+    -moz-transition: opacity 1.2s ease-in;
+    -khtml-transition: opacity 1.2s ease-in;
+    -webkit-transition: opacity 1.2s ease-in;
+    transition: opacity 1.2s ease-out;
+    -o-transition: opacity 1.2s ease-out;
+    -ms-transition: opacity 1.2s ease-out;
+    -moz-transition: opacity 1.2s ease-out;
+    -khtml-transition: opacity 1.2s ease-out;
+    -webkit-transition: opacity 1.2s ease-out;
+    height: 0; 
+    overflow: hidden;
+}
 
-section:target{ display:block;}
+section:target{ 
+    display:block;
+    opacity: 1;
+    height: auto;
+}
+
+#backtostart {
+    text-align: center;
+}
 
 
-#tour_images img {
+.beginButton {
+        position: relative; 
+        margin-top: 20%; 
+	-moz-box-shadow: 3px 4px 0px 0px #8a2a21;
+	-webkit-box-shadow: 3px 4px 0px 0px #8a2a21;
+	box-shadow: 3px 4px 0px 0px #8a2a21;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c62d1f), color-stop(1, #f24437));
+	background:-moz-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+	background:-webkit-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+	background:-o-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+	background:-ms-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24437',GradientType=0);
+	background-color:#c62d1f;
+	-moz-border-radius:18px;
+	-webkit-border-radius:18px;
+	border-radius:18px;
+	border:1px solid #d02718;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:arial;
+	font-size:17px;
+	padding:7px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #810e05;
+}
+.beginButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f24437), color-stop(1, #c62d1f));
+	background:-moz-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+	background:-webkit-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+	background:-o-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+	background:-ms-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+	background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24437', endColorstr='#c62d1f',GradientType=0);
+	background-color:#f24437;
+}
+.beginButton:active {
+	position:relative;
+	top:1px;
+}
+
+@media screen and (max-width: 1024px){
+    img { max-width: 100% }
+}
+
+@media screen and (max-height: 1024px){
+    img { max-height: 100% }
+}
+
+
+
+
+/*#tour_images img {
   position:absolute;
   left:0;
   -webkit-transition: opacity 1s ease-in-out;
@@ -30,5 +119,5 @@ section:target{ display:block;}
 
 #tour_images img.transparent {
 opacity:0;
-}
+}*/
 

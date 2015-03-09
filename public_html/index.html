@@ -17,90 +17,91 @@ and open the template in the editor.
         <script type="text/javascript">
             $(function () { // this is a shortcut for document ready
 
-                $('#tour_images img').hide().load(function () {
+                /*$('#tour_images img').hide().load(function () {
                     $(this).fadeIn(500);
-                });
+                });*/
 
 
-                $("#backtostart").hide();
-                var locations = [{
-                        moveForward: function () {
-                            $("#backtostart").hide();
-                            //Do stuff based on state
-                        }
-                    }, {
-                        moveForward: function () {
-                            //Do stuff based on state
-                        }
-                    }, {
-                        moveForward: function () {
-                            //Do stuff based on state
-                        }
-                    }, {
-                        moveForward: function () {
-                            //Do stuff based on state
-                        }
-                    }, {
-                        moveForward: function () {
-                            alert("You have reached the end of the current tour");
-                        }
-                    }];
-                var counter = 0;
-
-
-                $('.arrow').click(function () {
-                    counter = (counter + 1) % locations.length; // increment your counter
-                    // the modulus (%) operator resets the counter to 0
-                    // when it reaches the length of the array
-                    locations[counter].moveForward();
-                    $("#home").hide();
-                    $("#backtostart").show();
-
-                    console.log(counter); // the new incremented value
-                });
                 $('#backtostart').click(function () {
-                    counter = 0;
-                    locations[counter].moveForward();
                     $("#backtostart").hide();
-                });
-                $('.backone').click(function () {
-                    if (counter != 0) {
-                        counter = counter - 1;
-                        locations[counter].moveForward();
-                    }
-                });
+              });
+//                var locations = [{
+//                        moveForward: function () {
+//                            $("#backtostart").hide();
+//                            //Do stuff based on state
+//                        }
+//                    }, {
+//                        moveForward: function () {
+//                            //Do stuff based on state
+//                        }
+//                    }, {
+//                        moveForward: function () {
+//                            //Do stuff based on state
+//                        }
+//                    }, {
+//                        moveForward: function () {
+//                            //Do stuff based on state
+//                        }
+//                    }, {
+//                        moveForward: function () {
+//                            alert("You have reached the end of the current tour");
+//                        }
+//                    }];
+//                var counter = 0;
+//
+//
+//                $('.arrow').click(function () {
+//                    counter = (counter + 1) % locations.length; // increment your counter
+//                    // the modulus (%) operator resets the counter to 0
+//                    // when it reaches the length of the array
+//                    locations[counter].moveForward();
+//                    $("#home").hide();
+//                    $("#backtostart").show();
+//
+//                    console.log(counter); // the new incremented value
+//                });
+//                $('#backtostart').click(function () {
+//                    counter = 0;
+//                    locations[counter].moveForward();
+//                    $("#backtostart").hide();
+//                });
+//                $('.backone').click(function () {
+//                    if (counter != 0) {
+//                        counter = counter - 1;
+//                        locations[counter].moveForward();
+//                    }
+//                });
             });
-         /*$('#tour_images').cycle({
-             fx: 'fade',
-             speed: 'slow',
-             timeout: 0,
-             next: '#connectionRight_img',
-             prev: '#prev2'<!-- TODO: Add prev arrow -->
-             });*/
+//            $('#tour_images').cycle({
+//             fx: 'fade',
+//             speed: 'slow',
+//             timeout: 0,
+//             next: '#connectionRight_img',
+//             prev: '#prev2'<!-- TODO: Add prev arrow -->
+//             });
+
+    
+             
+
         </script>
     </head>
     <body>
         <div id="tour_images" class="pics">
             <div id="backtostart">
                 <a href ="#beginning">
-                    <button>Back to Beginning</button>
+                    <button class="beginButton">Begin Tour</button>
                 </a>
             </div>
-            <div id="home">
-                <div class ="arrow">
-                    <a href="#taylor">
-                        <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
-                    </a>
-                </div>
-                <img class="top" src="imgs/mountain_man.jpg" />
-            </div>​
             <section id="beginning">
                 <div class ="arrow">
+                    <img class="background_image" src="imgs/1366_front-3.jpg" />
+                    <div class="wt_arrow">
                     <a href="#taylor">
-                        <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
+                        <img id="connectionRight_img" class="btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
                     </a>
+                    </div>
                 </div>
-                <img class="top" src="imgs/mountain_man.jpg" />
+                
             </section>​
             <section id="taylor">
                 <div class="backone">
@@ -109,12 +110,12 @@ and open the template in the editor.
                     </a>
                 </div>
                 <div class="arrow">
+                    <img class="background_image" src="imgs/1366_front.jpg" />
+                    <div class="wt_arrow">
                     <a href="#hurst">
-                        <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
-                    </a>
-                </div>
-                <div>
-                    <img class="bottom" src ="imgs/taylor.jpg" />
+                        <img id="connectionRight_img" class="btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>                       
+                    </a>  
+                    </div>
                 </div>
             </section>
             <section id="hurst">
@@ -124,12 +125,13 @@ and open the template in the editor.
                     </a>
                 </div>
                 <div class="arrow">
+                    <img class="background_image" src ="imgs/1366_80_front-7.jpg" />
+                    <div class="wt_arrow">
                     <a href="#kelley">
-                        <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
-                    </a>
-                </div>
-                <div>
-                    <img class="three" src ="imgs/Hurst.jpg" />
+                        <img id="connectionRight_img" class="btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
+                        
+                    </a>   
+                    </div> 
                 </div>
             </section>
             <section id="kelley">
@@ -139,15 +141,14 @@ and open the template in the editor.
                     </a>
                 </div>
                 <div class="arrow">
-                    <a href>
-                        <img id="connectionRight_img" class="wt_arrow btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
+                    <img class="background_image" src="imgs/1366_80_front-11.jpg" />
+                    <div class="wt_arrow">
+                    <a href ="#beginning">
+                        <img id="connectionRight_img" class="btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>                        
                     </a>
-                    <div>
-                        <img class="four" src ="imgs/kelley.jpg" />
                     </div>
+                </div>
             </section>
-
-
             <!-- <div id="tour_images" class="pics">
                 <img src="imgs/mountain_man.jpg" />
                 <img src="imgs/taylor.jpg" />
