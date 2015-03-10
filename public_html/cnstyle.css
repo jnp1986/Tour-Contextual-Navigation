@@ -7,39 +7,8 @@ background: #000000;
     position:absolute;
 }
 
-.right_arrow {
-    position:absolute;
-    z-index:1;
-    bottom:55%;
-    right:45%;
-    max-width: 10%;
-}
-
-.forward_arrow {
-    position:absolute;
-    z-index:1;
-    bottom:30%;
-    right:47%;
-    max-width: 10%;
-}
-
-.back_left_arrow {
-    position:absolute;
-    z-index:1;
-    bottom:23%;
-    right:49%;
-    max-width: 10%; 
-}
-
-.back_arrow {
-    position:absolute;
-    z-index:1;
-    bottom:23%;
-    right:47.5%;
-    max-width: 10%; 
-}
-
 section {
+    position: fixed; 
     opacity: 0;
     transition: opacity 1s ease-in;
     -o-transition: opacity 1s ease-out;
@@ -54,12 +23,51 @@ section {
 section:target, .show{
     opacity: 1;
     height: auto;
+    position: fixed; 
 }
 
-#backtostart {
-    text-align: center;
+.show {
+    postion: absolute; 
+    left:50%;
+    top: 50%; 
 }
 
+
+.right_arrow {
+    position: absolute; 
+    z-index:1;
+    bottom:55%;
+    right:45%;
+    max-width: 10%;
+    border: 0; 
+}
+
+.forward_arrow {
+    position: absolute; 
+    z-index:1;
+    bottom:30%;
+    right:47%;
+    max-width: 10%;
+    border: 0; 
+}
+
+.back_left_arrow {
+    position: absolute; 
+    z-index:1;
+    bottom:23%;
+    right:49%;
+    max-width: 10%; 
+    border: 0; 
+}
+
+.back_arrow {
+    position: absolute; 
+    z-index:1;
+    bottom:23%;
+    right:47.5%;
+    max-width: 10%;
+    border: 0; 
+}
 
 .beginButton {
         position: relative; 
