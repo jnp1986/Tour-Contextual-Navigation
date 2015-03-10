@@ -5,47 +5,53 @@ background: #000000;
 
 .pics{
     position:absolute;
-    z-index:0;
 }
 
-.wt_arrow {
-    //background-image: url('imgs/trailEnd_turnRight.png');
+.right_arrow {
     position:absolute;
     z-index:1;
-    bottom:50%;
-    right:50%;
+    bottom:55%;
+    right:45%;
     max-width: 10%;
 }
 
-/* This hover gradient is lame. Wonder if there's a way to mask over only the 
-non-transparent portion of the png? Otherwise we can just replace the whole
-image with orange arrows on hover */
-.btn:hover {
-    background-image: url('imgs/turnRight_Hover.png');
-    //background-image: -webkit-linear-gradient(bottom, #f7991d 60%, #ffc30f 90%);
-    //background-image: linear-gradient(to top, #f7991d 60%, #ffc30f 90%);
+.forward_arrow {
+    position:absolute;
+    z-index:1;
+    bottom:30%;
+    right:47%;
+    max-width: 10%;
+}
+
+.back_left_arrow {
+    position:absolute;
+    z-index:1;
+    bottom:23%;
+    right:49%;
+    max-width: 10%; 
+}
+
+.back_arrow {
+    position:absolute;
+    z-index:1;
+    bottom:23%;
+    right:47.5%;
+    max-width: 10%; 
 }
 
 section {
     opacity: 0;
-    transition: opacity 1.2s ease-in;
-    -o-transition: opacity 1.2s ease-in;
-    -ms-transition: opacity 1.2s ease-in;
-    -moz-transition: opacity 1.2s ease-in;
-    -khtml-transition: opacity 1.2s ease-in;
-    -webkit-transition: opacity 1.2s ease-in;
-    transition: opacity 1.2s ease-out;
-    -o-transition: opacity 1.2s ease-out;
-    -ms-transition: opacity 1.2s ease-out;
-    -moz-transition: opacity 1.2s ease-out;
-    -khtml-transition: opacity 1.2s ease-out;
-    -webkit-transition: opacity 1.2s ease-out;
+    transition: opacity 1s ease-in;
+    -o-transition: opacity 1s ease-out;
+    -ms-transition: opacity 1s ease-out;
+    -moz-transition: opacity 1s ease-out;
+    -khtml-transition: opacity 1s ease-out;
+    -webkit-transition: opacity 1s ease-out;
     height: 0; 
     overflow: hidden;
 }
 
-section:target{ 
-    display:block;
+section:target, .show{
     opacity: 1;
     height: auto;
 }
@@ -100,24 +106,3 @@ section:target{
 @media screen and (max-width: 1024px){
     img { max-width: 100% }
 }
-
-@media screen and (max-height: 1024px){
-    img { max-height: 100% }
-}
-
-
-
-
-/*#tour_images img {
-  position:absolute;
-  left:0;
-  -webkit-transition: opacity 1s ease-in-out;
-  -moz-transition: opacity 1s ease-in-out;
-  -o-transition: opacity 1s ease-in-out;
-  transition: opacity 1s ease-in-out;
-}
-
-#tour_images img.transparent {
-opacity:0;
-}*/
-

@@ -9,22 +9,24 @@ and open the template in the editor.
         <title>Contextual Navigation</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/hotspot-map.min.css" type="text/css" />
         <link type="text/css" rel="stylesheet" href="cnstyle.css">
         <!-- include jQuery library -->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-        <!-- include Cycle plugin -->
-        <script type="text/javascript" src="http://malsup.github.com/jquery.cycle.all.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+        <script src="js/lib/jquery.min.js"></script>
+        <script src="js/hotspot-map.min.js"></script>
         <script type="text/javascript">
             $(function () { // this is a shortcut for document ready
 
-                /*$('#tour_images img').hide().load(function () {
-                    $(this).fadeIn(500);
-                });*/
+                $(".hotspot-92").hotspot({"show_on": "mouseover", "responsive": true});
+
+                $("#start").find("a").on("click", function () {
+                    $("#start").removeClass("show");
+                    $(this).off("click");
+                });
 
 
-                $('#backtostart').click(function () {
-                    $("#backtostart").hide();
-              });
+//******Likely won't need this state machine if we stick with target code in CSS**********//
 //                var locations = [{
 //                        moveForward: function () {
 //                            $("#backtostart").hide();
@@ -72,89 +74,89 @@ and open the template in the editor.
 //                    }
 //                });
             });
-//            $('#tour_images').cycle({
-//             fx: 'fade',
-//             speed: 'slow',
-//             timeout: 0,
-//             next: '#connectionRight_img',
-//             prev: '#prev2'<!-- TODO: Add prev arrow -->
-//             });
-
-    
-             
 
         </script>
     </head>
     <body>
+         <!-- 
+         ISSUE: Content width doesn't appear to be responsive in Firefox
+         BUG: When going to target URL, first section with the "Begin" button displays and pushes content down
+         TODO: Only display this button on specific targets URLs?-->
         <div id="tour_images" class="pics">
-            <div id="backtostart">
-                <a href ="#beginning">
-                    <button class="beginButton">Begin Tour</button>
-                </a>
-            </div>
+            <section class="sections show" id="start">
+                <div id="backtostart">
+                    <a href ="#beginning">
+                        <button class="beginButton">Begin Tour</button>
+                    </a>
+                </div>
+            </section> 
             <section id="beginning">
                 <div class ="arrow">
                     <img class="background_image" src="imgs/1366_front-3.jpg" />
-                    <div class="wt_arrow">
-                    <a href="#taylor">
-                        <img id="connectionRight_img" class="btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
-                    </a>
+                    <div class="arrows">
+                        <a href="#taylor">
+                            <img id="connectionRight_img" class="right_arrow" src="imgs/turnRight.png" onmouseover="this.src = 'imgs/turnRight_Hover.png'" onmouseout="this.src = 'imgs/turnRight.png'" alt="Turn Right"/>
+                        </a>
                     </div>
                 </div>
-                
+
             </section>​
             <section id="taylor">
-                <div class="backone">
-                    <a href ="#beginning">
-                        <button>Go Back</button>
-                    </a>
-                </div>
                 <div class="arrow">
-                    <img class="background_image" src="imgs/1366_front.jpg" />
-                    <div class="wt_arrow">
-                    <a href="#hurst">
-                        <img id="connectionRight_img" class="btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>                       
-                    </a>  
+                    <div class="hotspot-92 hs-wrap hs-loading">
+                        <img class="background_image" src="imgs/1366_front.jpg" />
+                        <div class="hs-spot-object" data-tint-color="#e52929" data-type="spot" data-x="20" data-y="20" data-width="30" data-height="30" data-popup-position="right" data-visible="visible" data-tooltip-width="100" data-tooltip-auto-width="true">
+                            Check out this video on Western
+                            <iframe width="300" height="200" src="https://www.youtube.com/embed/QaWu3cCH1bo" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="hs-spot-object" data-tint-color="#e52929" data-type="spot" data-x="70" data-y="30" data-width="15" data-height="30" data-popup-position="bottom" data-visible="visible" data-tooltip-width="100" data-tooltip-auto-width="false">
+                            Taylor Hall
+                        </div>
+                    </div>
+                    <div class="arrows">
+                        <a href="#pathway">
+                            <img id="connectionRight_img" class="forward_arrow" src="imgs/forward_big.png" onmouseover="this.src = 'imgs/forward_big_Hover.png'" onmouseout="this.src = 'imgs/forward_big.png'" alt="Walk Forward"/>                       
+                        </a>
+                        <a href="#beginning">
+                            <img id="connectionRight_img" class="back_left_arrow" src="imgs/back_turnLeft.png" onmouseover="this.src = 'imgs/back_turnLeft_Hover.png'" onmouseout="this.src = 'imgs/back_turnLeft.png'" alt="Turn Back Left"/>                       
+                        </a>
+
+                    </div>
+                </div>
+            </section>
+            <section id="pathway">
+                <div class="arrow">
+                    <div class="hotspot-92 hs-wrap hs-loading">
+                        <img class="background_image" src ="imgs/1366_80_front-7.jpg" />
+                        <div class="hs-spot-object" data-tint-color="#e52929" data-type="rect" data-x="70" data-y="30" data-width="8" data-height="8" data-popup-position="left" data-visible="visible" data-tooltip-width="100" data-tooltip-auto-width="false">
+                            Some trees
+                        </div>
+                    </div>
+                    <div class="arrows">
+                        <a href="#hurst">
+                            <img id="connectionRight_img" class="forward_arrow" src="imgs/forward_big.png" onmouseover="this.src = 'imgs/forward_big_Hover.png'" onmouseout="this.src = 'imgs/forward_big.png'" alt="Walk Forward"/>                       
+                        </a>
+                        <a href="#taylor">
+                            <img id="connectionRight_img" class="back_arrow" src="imgs/back.png" onmouseover="this.src = 'imgs/back_Hover.png'" onmouseout="this.src = 'imgs/back.png'" alt="Walk Back"/>                       
+                        </a>
                     </div>
                 </div>
             </section>
             <section id="hurst">
-                <div class="backone">
-                    <a href ="#taylor">
-                        <button>Go Back</button>
-                    </a>
-                </div>
                 <div class="arrow">
-                    <img class="background_image" src ="imgs/1366_80_front-7.jpg" />
-                    <div class="wt_arrow">
-                    <a href="#kelley">
-                        <img id="connectionRight_img" class="btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>
-                        
-                    </a>   
-                    </div> 
-                </div>
-            </section>
-            <section id="kelley">
-                <div class="backone">
-                    <a href ="#hurst">
-                        <button>Go Back</button>
-                    </a>
-                </div>
-                <div class="arrow">
-                    <img class="background_image" src="imgs/1366_80_front-11.jpg" />
-                    <div class="wt_arrow">
-                    <a href ="#beginning">
-                        <img id="connectionRight_img" class="btn" src="imgs/trailEnd_turnRight.png" alt="Right Arrow"/>                        
-                    </a>
+                    <div class="hotspot-92 hs-wrap hs-loading">
+                        <img class="background_image" src="imgs/1366_80_front-11.jpg" />
+                        <div class="hs-spot-object" data-tint-color="#e52929" data-type="spot" data-x="50" data-y="34.66666666666667" data-width="30" data-height="30" data-popup-position="bottom" data-visible="visible" data-tooltip-width="200" data-tooltip-auto-width="false">
+                            This is Hurst, the building above all buildings. Check out the super cool things about it. So much Hurst. 
+                        </div>
+                    </div>
+                    <div class="arrows">
+                        <a href="#pathway">
+                            <img id="connectionRight_img" class="back_arrow" src="imgs/back.png" onmouseover="this.src = 'imgs/back_Hover.png'" onmouseout="this.src = 'imgs/back.png'" alt="Walk Back"/>                       
+                        </a>
                     </div>
                 </div>
             </section>
-            <!-- <div id="tour_images" class="pics">
-                <img src="imgs/mountain_man.jpg" />
-                <img src="imgs/taylor.jpg" />
-            </div> -->
         </div>
-
-
     </body>
 </html>
