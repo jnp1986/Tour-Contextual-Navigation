@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html><head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <link type="text/css" rel="stylesheet" href="/Tour-Contextual-Navigation2/public_html/cnstyle.css">
+        <title></title>
+    </head>
+    <body>
+        <div class="pano" align="center" style="height: 100%; overflow:hidden;">
+            <noscript><div style="color: red; width: 30%; border: 1px solid red; padding: 4px; font-family: sans-serif;">ERROR: Your web browser must have JavaScript enabled to show this panorama.</div></noscript>
+            <div id="panoStudioViewerID"></div>
+            <div class="arrows">
+                <a href="/Tour-Contextual-Navigation2/public_html/index.html#pathway">
+                    <img class="forward_arrow" src="/Tour-Contextual-Navigation2/public_html/imgs/forward_big.png" onmouseover="this.src = '/Tour-Contextual-Navigation2/public_html/imgs/forward_big_Hover.png'" onmouseout="this.src = '/Tour-Contextual-Navigation2/public_html/imgs/forward_big.png'" alt="Walk Forward"/>                       
+                </a>
+                <a href="/Tour-Contextual-Navigation2/public_html/index.html#beginning">
+                    <img class="back_left_arrow" src="/Tour-Contextual-Navigation2/public_html/imgs/back_turnLeft.png" onmouseover="this.src = '/Tour-Contextual-Navigation2/public_html/imgs/back_turnLeft_Hover.png'" onmouseout="this.src = '/Tour-Contextual-Navigation2/public_html/imgs/back_turnLeft.png'" alt="Turn Back Left"/>                       
+                </a>
+            </div>
+            <script type="text/javascript" src="panoStudioViewer.js"></script>
+            <script type="text/javascript">panoStudioViewer.embed("panoStudioViewerID", "100%", "100%", "New Panorama1.xml", "true", "false");</script>
+        </div>
+
+    </body></html>

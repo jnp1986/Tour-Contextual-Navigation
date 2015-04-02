@@ -7,6 +7,10 @@ background: #000000;
     position:absolute;
 }
 
+.arrows{
+    z-index: 100; 
+}
+
 section {
     position: fixed; 
     opacity: 0;

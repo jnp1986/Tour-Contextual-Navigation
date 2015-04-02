@@ -4,14 +4,17 @@
         <title>Contextual Navigation</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/hotspot-map.min.css" type="text/css" />
+        <link rel="stylesheet" href="css/hotspot-map.min.css" type="text/css"/>
         <link type="text/css" rel="stylesheet" href="cnstyle.css">
+        <link rel = "stylesheet" type = "text/css" href = "css/jquery.panorama.css"/> 
         <!-- include jQuery library -->
+        <script type = "text/javascript" src = "js/jquery.js" ></script> 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
         <script src="js/lib/jquery.min.js"></script>
         <script src="js/hotspot-map.min.js"></script>
+        <script type = "text/javascript" src ="js/jquery.panorama.js"></script>
         <script type="text/javascript">
-            $(function () { 
+            $(function () {
                 if (location.hash !== "") {
                     $("#start").removeClass("show");
                 }
@@ -22,6 +25,13 @@
                     $("#start").removeClass("show");
                     $(this).off("click");
                 });
+                $("img.mypanorama").panorama({
+                    "viewport_width": 500,
+                            "speed": 30000,
+                    "Officer": "right",
+                            "control_display": "yes"
+                });
+
             });
         </script>
     </head>
@@ -30,9 +40,9 @@
         TODO:Make arrow images change size when screen is resized-->
         <div class="pics">
             <section class="show" id="start">
-                    <a href ="#beginning">
-                        <button class="beginButton">Begin Tour</button>
-                    </a>
+                <a href ="#beginning">
+                    <button class="beginButton">Begin Tour</button>
+                </a>
             </section> 
             <section id="beginning">
                 <img class="background_image" src="imgs/1366_front-3.jpg" />
@@ -42,7 +52,7 @@
             </section>​
             <section id="taylor">
                 <div class="hotspot-92 hs-wrap hs-loading">
-                    <img src="imgs/1366_front.jpg" />
+                    <img src = "imgs/1366_front.jpg" class = "panorama mypanorama" width = "2642" height = "375" />
                     <div class="hs-spot-object" data-tint-color="#e52929" data-type="spot" data-x="20" data-y="20" data-width="30" data-height="30" data-popup-position="right" data-visible="visible" data-tooltip-width="100" data-tooltip-auto-width="true">
                         Check out this video on Western
                         <iframe width="300" height="200" src="https://www.youtube.com/embed/QaWu3cCH1bo" frameborder="0" allowfullscreen></iframe>
