@@ -1,14 +1,10 @@
-body
+body.contextual_navigation
 {
-background: #000000; 
+    background: #000000; 
 }
 
-.pics{
+.contextual_assets{
     position:absolute;
-}
-
-.arrows{
-    z-index: 100; 
 }
 
 section {
@@ -39,7 +35,7 @@ section:target, .show{
 .right_arrow {
     position: absolute; 
     z-index:1;
-    bottom:55%;
+    bottom:70%;
     right:45%;
     max-width: 10%;
     border: 0; 
@@ -48,26 +44,26 @@ section:target, .show{
 .forward_arrow {
     position: absolute; 
     z-index:1;
-    bottom:30%;
+    bottom:15%;
     right:47%;
     max-width: 10%;
     border: 0; 
 }
 
-.back_left_arrow {
+.back_left_arrow{
     position: absolute; 
     z-index:1;
     bottom:23%;
-    right:49%;
+    right:43%;
     max-width: 10%; 
     border: 0; 
 }
 
-.back_arrow {
+.back_arrow{
     position: absolute; 
     z-index:1;
-    bottom:23%;
-    right:47.5%;
+    bottom:10%;
+    right:30%;
     max-width: 10%;
     border: 0; 
 }
@@ -118,4 +114,15 @@ section:target, .show{
 
 @media screen and (max-width: 1024px){
     img { max-width: 100% }
+}
+
+.icon-clear {
+
+}
+#icon-clear:hover {
+    fill: #999999;
+    cursor: pointer;
+}
+.icon-shadow {
+    fill: black;
 }

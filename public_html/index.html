@@ -1,97 +1,210 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
     <head>
         <title>Contextual Navigation</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/hotspot-map.min.css" type="text/css"/>
-        <link type="text/css" rel="stylesheet" href="cnstyle.css">
-        <link rel = "stylesheet" type = "text/css" href = "css/jquery.panorama.css"/> 
+        <link type="text/css" rel="stylesheet" href="css/cnstyle.css">
         <!-- include jQuery library -->
-        <script type = "text/javascript" src = "js/jquery.js" ></script> 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
         <script src="js/lib/jquery.min.js"></script>
         <script src="js/hotspot-map.min.js"></script>
-        <script type = "text/javascript" src ="js/jquery.panorama.js"></script>
         <script type="text/javascript">
             $(function () {
+                /**
+                 * TODOS: Use Tool tips for navigation
+                 * Fix SVG placement (wtf?!) 
+                 */
+                /**
+                 * Lines 20-27 are only in place for demo purposes until we hook everything up
+                 * They can be removed at some point along with the "show" section in html
+                 * Anything that references #start and .show in cnstyle.css can also be removed at that time
+                 */
                 if (location.hash !== "") {
                     $("#start").removeClass("show");
                 }
-
-                $(".hotspot-92").hotspot({"show_on": "mouseover", "responsive": true});
 
                 $("#start").find("a").on("click", function () {
                     $("#start").removeClass("show");
                     $(this).off("click");
                 });
-                $("img.mypanorama").panorama({
-                    "viewport_width": 500,
-                            "speed": 30000,
-                    "Officer": "right",
-                            "control_display": "yes"
-                });
 
+                /**
+                 * Creates an instance of a Navigation Item 
+                 * @constructor
+                 * @this {Navigation}
+                 * @param {string} tag The location tag of the navigation item (should be in form # + location, i.e #hurst
+                 * @param {string} name The name of the navigation item corresponding to div id to be filled
+                 * @param {string} styleClass The CSS style to apply
+                 * @param {string} ttip Tool tip 
+                 * @param {string} destination The hash location destination (i.e. "#hurst) 
+                 * @param {string} direction The direction of navigation arrow (i.e. "back", "forward", "right", "left") 
+                 * @param {string} fillColor Arrow fill color in form #CC0000
+                 */
+                function Navigation(tag, name, styleClass, ttip, dest, direction, fillColor) {
+                    this.tag = tag;
+                    this.name = name;
+                    this.styleClass = styleClass;
+                    this.ttip = ttip;
+                    this.dest = dest;
+                    this.direction = direction;
+                    this.fillColor = fillColor;
+                }
+                ;
+                /**
+                 * Navigation object instances 
+                 */
+                var forward_to_pathway = new Navigation("#taylor", "forward_to_pathway", "forward_arrow", "to pathway", "#pathway", "forward", "#CC0000");
+                var forward_to_hurst = new Navigation("#pathway", "forward_to_hurst", "forward_arrow", "to hurst", "#hurst", "forward", "#CC0000");
+                var back_to_taylor = new Navigation("#pathway", "back_to_taylor", "back_arrow", "back to Taylor", "#taylor", "back", "#CC0000");
+                var back_to_pathway = new Navigation("#hurst", "back_to_pathway", "back_arrow", "back to pathway", "#pathway", "back", "#CC0000");
+                var navs = [forward_to_pathway, forward_to_hurst, back_to_taylor, back_to_pathway];
+                /**
+                 * Creates an instance of a Hotspot 
+                 * @constructor
+                 * @this {Hspot}
+                 * @param {string} tag The location tag of the hotspot (should be in form # + location, i.e #hurst
+                 * @param {string} name The name of the location corresponding to div id to be filled
+                 * @param {Number} xLoc The x coordinate of the hotspot.
+                 * @param {Number} yLoc The y coordinate of the hotspot. 
+                 * @param {Number} width The width of the hotspot. 
+                 * @param {Number} height The height of the hotspot.
+                 * @param {Number} ttipWidth The width of the tooltip.
+                 * @param {string} image The html code for image, i.e "<img src = . . ."  
+                 * @param {string} position The position of the tooltip in relation to hspot, i.e. "top", "bottom", "left", "right"
+                 * @param {string} type of hotspot, i.e. "spot", "rect"  
+                 */
+                function Hspot(tag, name, xLoc, yLoc, width, height, text, ttipWidth, image, position, type) {
+                    this.tag = tag;
+                    this.name = name;
+                    this.xLoc = xLoc;
+                    this.yLoc = yLoc;
+                    this.width = width;
+                    this.height = height;
+                    this.text = text;
+                    this.ttipWidth = ttipWidth;
+                    this.image = image;
+                    this.position = position;
+                    this.type = type;
+                }
+                ;
+                /**
+                 * Hspot object instances 
+                 */
+                var taylor_hotspot = new Hspot("#taylor", "taylor_hotspot", 70, 30, 15, 30, "Taylor Hall", 100, null, "bottom", "spot");
+                var pathway_hotspot = new Hspot("#pathway", "pathway_hotspot", 70, 30, 8, 8, "some trees", 100, null, "left", "rect");
+                var hurst_hotspot = new Hspot("#hurst", "hurst_hotspot", 50, 34, 30, 30, "This is Hurst, the building above all buildings. Check out the super cool things about it. So much Hurst.", 200, null, "bottom", "spot");
+                var hotspots = [taylor_hotspot, pathway_hotspot, hurst_hotspot];
+                /**
+                 * Render all hotspots at the current location
+                 * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#Hurst" 
+                 */
+                function getHspots(locationTag) {
+                    var inner_html = "";
+                    for (var i in hotspots) {
+                        if (hotspots[i].tag === locationTag) {
+                            var hotspotsDiv = hotspots[i].tag + "_hotspots";
+                            inner_html += "<div class='hs-spot-object' data-tint-color='#e52929' data-type=" + hotspots[i].type +
+                                    " data-x =" + hotspots[i].xLoc + " data-y =" + hotspots[i].yLoc + " data-width = " + hotspots[i].width + " data-height = " + hotspots[i].height + " data-popup-position = " + hotspots[i].position +
+                                    " data-visible = 'visible'" +
+                                    "data-tooltip-width =" + hotspots[i].ttipWidth + " data-tooltip-auto-width= 'false'> " + hotspots[i].text + " </div>";
+                            $(".icon-clear").css({'fill': "black", "color": "white"});
+                            $(hotspotsDiv).html(inner_html);
+                        }
+                    }
+                }
+
+                /**
+                 *  Render all navigation items at the current location
+                 * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#hurst" 
+                 */
+                function getNavs(locationTag) {
+                    var inner_html = "";
+                    for (var i in navs) {
+                        if (navs[i].tag === locationTag) {
+
+                            var d = "M202.969,0l-99.438,130.824h52.213c8.629,89.9-25.768,176.225-120.373,206.957" +
+                                    "c121.697,0.34,190.641-99.896,213.967-206.957h53.072L202.969,0z";
+                            var flip = "";
+                            var viewBox = "'0 0 300 502.174'";
+                            if (navs[i].direction === "back") {
+                                flip = "transform='rotate(180 -50 100)'";
+                                viewBox = "'-300 -450 300 502.174'";
+                            }
+
+                            inner_html += "<svg class=' " + navs[i].styleClass + " icon-clear' version='1.1' id='Layer_1' x='0px' y='0px' " +
+                                    "width='500' height='200' viewBox= " + viewBox + " enable-background='new 200 0 200 502.174' xml:space='preserve'> " +
+                                    " <path onclick=javascript:location.hash='" + navs[i].dest + "' id = 'icon-clear' " + flip + " d=" + d + "/>";
+                            var navigationDiv = navs[i].tag + "_navigation";
+
+                            $(navigationDiv).html(inner_html);
+                            $(".icon-clear").css({"fill": navs[i].fillColor});
+                        }
+                    }
+                }
+
+                /**
+                 * Render main image for the current location
+                 * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#hurst"
+                 * locationTag should match image file, i.e "hurst_main.jpg" (substring removes "#") 
+                 */
+                function getImage(locationTag) {
+                    var mainImageDiv = locationTag + "_main_image";
+                    $(mainImageDiv).html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");
+                }
+
+                /***Currently using location.hash, this will likely be replaced with getLocation()?
+                 * Functions above requires the location tag passed in to be # + location tag name. (i.e "#hurst")
+                 */
+                $(window).on('hashchange', function () {
+
+                    getImage(location.hash);
+                    getHspots(location.hash);
+                    getNavs(location.hash);
+                    $(location.hash + "_hotspot_wrapper").hotspot({"show_on": "mouseover", "responsive": true});
+
+                });
             });
         </script>
     </head>
-    <body>
-        <!-- ISSUE: Content width doesn't appear to be responsive in Firefox
-        TODO:Make arrow images change size when screen is resized-->
-        <div class="pics">
+    <body class="contextual_navigation">
+        <!-- ISSUE: Content width doesn't appear to be responsive in Firefox-->
+        <!-- Div class and id names are important for the JS --> 
+        <div class="contextual_assets">
             <section class="show" id="start">
-                <a href ="#beginning">
+                <a href ="#taylor">
                     <button class="beginButton">Begin Tour</button>
                 </a>
             </section> 
-            <section id="beginning">
-                <img class="background_image" src="imgs/1366_front-3.jpg" />
-                <a href="#taylor">
-                    <img id="connectionRight_img" class="right_arrow" src="imgs/turnRight.png" onmouseover="this.src = 'imgs/turnRight_Hover.png'" onmouseout="this.src = 'imgs/turnRight.png'" alt="Turn Right"/>
-                </a>
-            </section>​
             <section id="taylor">
-                <div class="hotspot-92 hs-wrap hs-loading">
-                    <img src = "imgs/1366_front.jpg" class = "panorama mypanorama" width = "2642" height = "375" />
-                    <div class="hs-spot-object" data-tint-color="#e52929" data-type="spot" data-x="20" data-y="20" data-width="30" data-height="30" data-popup-position="right" data-visible="visible" data-tooltip-width="100" data-tooltip-auto-width="true">
-                        Check out this video on Western
-                        <iframe width="300" height="200" src="https://www.youtube.com/embed/QaWu3cCH1bo" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <div class="hs-spot-object" data-tint-color="#e52929" data-type="spot" data-x="70" data-y="30" data-width="15" data-height="30" data-popup-position="bottom" data-visible="visible" data-tooltip-width="100" data-tooltip-auto-width="false">
-                        Taylor Hall
-                    </div>
+                <div id="taylor_hotspot_wrapper">
+                    <div id="taylor_main_image">
+                    </div> 
+                    <div id="taylor_hotspots">                   
+                    </div> 
                 </div>
-                <a href="#pathway">
-                    <img class="forward_arrow" src="imgs/forward_big.png" onmouseover="this.src = 'imgs/forward_big_Hover.png'" onmouseout="this.src = 'imgs/forward_big.png'" alt="Walk Forward"/>                       
-                </a>
-                <a href="#beginning">
-                    <img class="back_left_arrow" src="imgs/back_turnLeft.png" onmouseover="this.src = 'imgs/back_turnLeft_Hover.png'" onmouseout="this.src = 'imgs/back_turnLeft.png'" alt="Turn Back Left"/>                       
-                </a>
+                <div id="taylor_navigation">                   
+                </div>
             </section>
             <section id="pathway">
-                <div class="hotspot-92 hs-wrap hs-loading">
-                    <img src ="imgs/1366_80_front-7.jpg" />
-                    <div class="hs-spot-object" data-tint-color="#e52929" data-type="rect" data-x="70" data-y="30" data-width="8" data-height="8" data-popup-position="left" data-visible="visible" data-tooltip-width="100" data-tooltip-auto-width="false">
-                        Some trees
-                    </div>
+                <div id="pathway_hotspot_wrapper">
+                    <div id="pathway_main_image">
+                    </div> 
+                    <div id="pathway_hotspots">                   
+                    </div> 
                 </div>
-                <a href="#hurst">
-                    <img class="forward_arrow" src="imgs/forward_big.png" onmouseover="this.src = 'imgs/forward_big_Hover.png'" onmouseout="this.src = 'imgs/forward_big.png'" alt="Walk Forward"/>                       
-                </a>
-                <a href="#taylor">
-                    <img class="back_arrow" src="imgs/back.png" onmouseover="this.src = 'imgs/back_Hover.png'" onmouseout="this.src = 'imgs/back.png'" alt="Walk Back"/>                       
-                </a>
+                <div id="pathway_navigation">
+                </div>
             </section>
             <section id="hurst">
-                <div class="hotspot-92 hs-wrap hs-loading">
-                    <img src="imgs/1366_80_front-11.jpg" />
-                    <div class="hs-spot-object" data-tint-color="#e52929" data-type="spot" data-x="50" data-y="34.66666666666667" data-width="30" data-height="30" data-popup-position="bottom" data-visible="visible" data-tooltip-width="200" data-tooltip-auto-width="false">
-                        This is Hurst, the building above all buildings. Check out the super cool things about it. So much Hurst. 
-                    </div>
+                <div id="hurst_hotspot_wrapper">
+                    <div id="hurst_main_image">
+                    </div> 
+                    <div id="hurst_hotspots">                   
+                    </div> 
                 </div>
-                <a href="#pathway">
-                    <img class="back_arrow" src="imgs/back.png" onmouseover="this.src = 'imgs/back_Hover.png'" onmouseout="this.src = 'imgs/back.png'" alt="Walk Back"/>                       
-                </a>
+                <div id="hurst_navigation"></div>
             </section>
         </div>
     </body>
