@@ -62,8 +62,8 @@ section:target, .show{
 .back_arrow{
     position: absolute; 
     z-index:1;
-    bottom:10%;
-    right:30%;
+    bottom:7%;
+    right:45%;
     max-width: 10%;
     border: 0; 
 }
@@ -119,7 +119,8 @@ section:target, .show{
 .icon-clear {
 
 }
-#icon-clear:hover {
+
+.icon-clear2:hover {
     fill: #999999;
     cursor: pointer;
 }

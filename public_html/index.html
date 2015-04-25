@@ -14,7 +14,6 @@
             $(function () {
                 /**
                  * TODOS: Use Tool tips for navigation
-                 * Fix SVG placement (wtf?!) 
                  */
                 /**
                  * Lines 20-27 are only in place for demo purposes until we hook everything up
@@ -126,22 +125,25 @@
 
                             var d = "M202.969,0l-99.438,130.824h52.213c8.629,89.9-25.768,176.225-120.373,206.957" +
                                     "c121.697,0.34,190.641-99.896,213.967-206.957h53.072L202.969,0z";
-                            var flip = "";
-                            var viewBox = "'0 0 300 502.174'";
+                            if (navs[i].direction === "forward") {
+                                var flip = 0;
+                                var viewBox = "'0 0 300 502'";
+                            }
                             if (navs[i].direction === "back") {
-                                flip = "transform='rotate(180 -50 100)'";
-                                viewBox = "'-300 -450 300 502.174'";
+                                flip = "transform='rotate(180 0 0)'";
+                                viewBox = "'-300 -450 300 502'";
                             }
 
-                            inner_html += "<svg class=' " + navs[i].styleClass + " icon-clear' version='1.1' id='Layer_1' x='0px' y='0px' " +
+                            inner_html += "<svg onclick=javascript:location.hash='" + navs[i].dest + "' class=' " + navs[i].styleClass + " icon-clear icon-clear2' version='1.1' x='0px' y='0px' " +
                                     "width='500' height='200' viewBox= " + viewBox + " enable-background='new 200 0 200 502.174' xml:space='preserve'> " +
-                                    " <path onclick=javascript:location.hash='" + navs[i].dest + "' id = 'icon-clear' " + flip + " d=" + d + "/>";
+                                    " <path class = 'icon-clear2' " + flip + " d=" + d + "/></svg>";
                             var navigationDiv = navs[i].tag + "_navigation";
 
-                            $(navigationDiv).html(inner_html);
-                            $(".icon-clear").css({"fill": navs[i].fillColor});
                         }
                     }
+                    $(navigationDiv).html(inner_html);
+                    $(".icon-clear").css({"fill": navs[i].fillColor});
+
                 }
 
                 /**
