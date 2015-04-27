@@ -45,7 +45,7 @@ section:target, .show{
     position: absolute; 
     z-index:1;
     bottom:15%;
-    right:47%;
+    right:48%;
     max-width: 10%;
     border: 0; 
 }
@@ -62,8 +62,8 @@ section:target, .show{
 .back_arrow{
     position: absolute; 
     z-index:1;
-    bottom:7%;
-    right:45%;
+    bottom:5%;
+    right:40%;
     max-width: 10%;
     border: 0; 
 }
@@ -127,3 +127,15 @@ section:target, .show{
 .icon-shadow {
     fill: black;
 }
+
+.tooltip {
+	display:none;
+	position:absolute;
+	border:1px solid #333;
+	background-color:#161616;
+	border-radius:5px;
+	padding:10px;
+	color:#fff;
+	font-size:12px Arial;
+}
+
