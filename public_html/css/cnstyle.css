@@ -35,8 +35,18 @@ section:target, .show{
 .right_arrow {
     position: absolute; 
     z-index:1;
-    bottom:70%;
-    right:45%;
+    bottom:20%;
+    right:40%;
+    max-width: 10%;
+    border: 0; 
+}
+
+
+.left_arrow {
+    position: absolute; 
+    z-index:1;
+    bottom:20%;
+    right:55%;
     max-width: 10%;
     border: 0; 
 }
@@ -45,17 +55,8 @@ section:target, .show{
     position: absolute; 
     z-index:1;
     bottom:15%;
-    right:48%;
+    right:45%;
     max-width: 10%;
-    border: 0; 
-}
-
-.back_left_arrow{
-    position: absolute; 
-    z-index:1;
-    bottom:23%;
-    right:43%;
-    max-width: 10%; 
     border: 0; 
 }
 

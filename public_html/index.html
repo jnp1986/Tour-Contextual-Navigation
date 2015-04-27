@@ -16,7 +16,7 @@
         <script type="text/javascript">
             $(function () {
                 /**
-                 * Lines 20-27 are only in place for demo purposes until we hook everything up
+                 * Lines 23-30 are only in place for demo purposes until we hook everything up
                  * They can be removed at some point along with the "show" section in html
                  * Anything that references #start and .show in cnstyle.css can also be removed at that time
                  */
@@ -28,6 +28,12 @@
                     $("#start").removeClass("show");
                     $(this).off("click");
                 });
+
+                function set_body_height()
+                {
+                    var wh = $(window).height();
+                    $(location.hash + " .hotspot_wrapper").attr('style', 'height:' + wh + 'px;');
+                }
 
                 /**
                  * Creates an instance of a Navigation Item 
@@ -55,11 +61,26 @@
                 /**
                  * Navigation object instances 
                  */
-                var forward_to_pathway = new Navigation("#taylor", "forward_to_pathway", "forward_arrow", "to pathway", "#pathway", "forward", "#CC0000");
-                var forward_to_hurst = new Navigation("#pathway", "forward_to_hurst", "forward_arrow", "to Hurst", "#hurst", "forward", "#CC0000");
-                var back_to_taylor = new Navigation("#pathway", "back_to_taylor", "back_arrow", "back to Taylor", "#taylor", "back", "#CC0000");
-                var back_to_pathway = new Navigation("#hurst", "back_to_pathway", "back_arrow", "back to pathway", "#pathway", "back", "#CC0000");
-                var navs = [forward_to_pathway, forward_to_hurst, back_to_taylor, back_to_pathway];
+                var taylor_to_pathway = new Navigation("#taylor", "taylor_to_pathway", "forward_arrow", "to pathway", "#pathway", "forward", "#CC0000");
+                var pathway_to_hurst = new Navigation("#pathway", "pathway_to_hurst", "forward_arrow", "to Hurst", "#hurst", "forward", "#CC0000");
+                var pathway_to_taylor = new Navigation("#pathway", "pathway_to_taylor", "back_arrow", "back to Taylor", "#taylor", "back", "#CC0000");
+                var pathway_to_quigly = new Navigation("#pathway", "pathway_to_quigly", "right_arrow", "to Quigly", "#quigly", "right", "#CC0000");
+                var hurst_to_pathway = new Navigation("#hurst", "hurst_to_pathway", "back_arrow", "back to pathway", "#pathway", "back", "#CC0000");
+                var hurst_to_kelley = new Navigation("#hurst", "hurst_to_kelley", "left_arrow", "to Kelley Hall", "#kelley", "left", "#CC0000"); 
+                var quigly_to_pathway = new Navigation("#quigly", "quigly_to_pathway", "left_arrow", "back to pathway", "#pathway", "left", "#CC0000"); 
+                var kelley_to_hurst = new Navigation("#kelley", "kelley_to_hurst", "right_arrow", "to Hurst Hall", "#hurst", "right", "#CC0000"); 
+                var kelley_to_pathway2 = new Navigation("#kelley", "kelley_to_pathway2", "left_arrow", "to pathway", "#pathway2", "left", "#CC0000"); 
+                var pathway2_to_library = new Navigation("#pathway2", "pathway2_to_library", "forward_arrow", "to Library", "#library", "forward", "#CC0000"); 
+                var pathway2_to_kelley = new Navigation("#pathway2", "pathway2_to_kelley", "back_arrow", "to Kelley Hall", "#kelley", "back", "#CC0000"); 
+                var library_to_pathway2 = new Navigation("#library", "library_to_pathway2", "back_arrow", "to pathway", "#pathway2", "back", "#CC0000"); 
+                var library_to_universitycenter = new Navigation("#library", "library_to_universitycenter", "forward_arrow", "to University Center", "#universitycenter", "forward", "#CC0000"); 
+                var universitycenter_to_library = new Navigation("#universitycenter", "universitycenter_to_library", "right_arrow", "to Library", "#library", "right", "#CC0000"); 
+                var universitycenter_to_footballfield = new Navigation("#universitycenter", "universitycenter_to_footballfield", "left_arrow", "to Football Field", "#footballfield", "left", "#CC0000"); 
+                var footballfield_to_universitycenter = new Navigation("#footballfield", "footballfield_to_universitycenter", "right_arrow", "to University Center", "#universitycenter", "right", "#CC0000"); 
+                var navs = [taylor_to_pathway, pathway_to_hurst, pathway_to_taylor, pathway_to_quigly, hurst_to_pathway, 
+                    hurst_to_kelley, quigly_to_pathway, kelley_to_hurst, kelley_to_pathway2, pathway2_to_library, 
+                    pathway2_to_kelley, library_to_pathway2, library_to_universitycenter, universitycenter_to_library, 
+                    universitycenter_to_footballfield, footballfield_to_universitycenter];
 
                 /**
                  * Creates an instance of a Hotspot 
@@ -107,15 +128,17 @@
                     var inner_html = "";
                     for (var i in hotspots) {
                         if (hotspots[i].tag === locationTag) {
-                            var hotspotsDiv = hotspots[i].tag + "_hotspots";
                             inner_html += "<div class='hs-spot-object' data-tint-color='#e52929' data-type=" + hotspots[i].type +
-                                    " data-x =" + hotspots[i].xLoc + " data-y =" + hotspots[i].yLoc + " data-width = " + hotspots[i].width + " data-height = " + hotspots[i].height + " data-popup-position = " + hotspots[i].position +
-                                    " data-visible = 'visible'" +
-                                    "data-tooltip-width =" + hotspots[i].ttipWidth + " data-tooltip-auto-width= 'false'> " + hotspots[i].text + " </div>";
+                                    " data-x =" + hotspots[i].xLoc + " data-y =" + hotspots[i].yLoc +
+                                    " data-width = " + hotspots[i].width + " data-height = " + hotspots[i].height +
+                                    " data-popup-position = " + hotspots[i].position + " data-visible = 'visible'" +
+                                    "data-tooltip-width =" + hotspots[i].ttipWidth +
+                                    " data-tooltip-auto-width= 'false'> " + hotspots[i].text + " </div>";
                             $(".icon-clear").css({'fill': "black", "color": "white"});
-                            $(hotspotsDiv).html(inner_html);
+                            $(location.hash + " .hotspots").html(inner_html);
                         }
                     }
+                    $(location.hash + " .hotspot_wrapper").hotspot({"show_on": "mouseover", "responsive": true});
                 }
 
                 /**
@@ -123,6 +146,7 @@
                  * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#hurst" 
                  */
                 function getNavs(locationTag) {
+                    $('.tipsy:last').remove();
                     var inner_html = "";
                     for (var i in navs) {
                         if (navs[i].tag === locationTag) {
@@ -130,25 +154,31 @@
                                     "c121.697,0.34,190.641-99.896,213.967-206.957h53.072L202.969,0z";
                             if (navs[i].direction === "forward") {
                                 var flip = 0;
-                                var viewBox = "'0 0 300 502'";
+                                var viewBox = "'0 0 502 300'";
                             }
                             if (navs[i].direction === "back") {
                                 flip = "transform='rotate(180 0 0)'";
-                                viewBox = "'-300 -450 300 502'";
+                                viewBox = "'-300 -450 502 300'";
                             }
-                            inner_html += "<svg " + navs[i].dest + "' class=' " + navs[i].styleClass + " icon-clear icon-clear2' version='1.1' x='0px' y='0px' " +
-                                    "width='500' height='200' viewBox= " + viewBox + " enable-background='new 200 0 200 502.174' xml:space='preserve'> " +
+                            if (navs[i].direction === "right") {
+                                flip = "transform='rotate(90,0,0)'";
+                                viewBox = "'-450 -150 502 300'";
+                            }
+                            if (navs[i].direction === "left") {
+                                flip = "transform='rotate(-90,0,0)'"; 
+                                viewBox = "'-150 -200 502 300'";
+                            }
+                            inner_html += "<svg " + navs[i].dest + "' class=' " + navs[i].styleClass +
+                                    " icon-clear icon-clear2' version='1.1' x='0px' y='0px' " +
+                                    "width='500' height='200' viewBox= " + viewBox +
+                                    " enable-background='new 200 0 200 502.174' xml:space='preserve'> " +
                                     "<use xlink:href = '#" + navs[i].name + "' class = 'icon-shadow' transform = 'translate(6, 5)' /> " +
-                                    "<path onclick=javascript:window.location.hash='" + navs[i].dest + "' title='" + navs[i].ttip + "' class ='icon-clear2' id='" + navs[i].name + "' " + flip + " d=" + d + "/></svg>";
-                            var navigationDiv = navs[i].tag + "_navigation";
-                            $(navigationDiv).html(inner_html);
+                                    "<path onclick=javascript:window.location.hash='" + navs[i].dest +
+                                    "' title='" + navs[i].ttip + "' class ='icon-clear2' id='" + navs[i].name + "' " +
+                                    flip + " d=" + d + "/></svg>";
+                            $(location.hash + " .navigation").html(inner_html);
                             $(".icon-clear").css({"fill": navs[i].fillColor});
-                            if (navs[i].direction === "back") {
-                                $(".icon-clear2").tipsy({gravity: 'nw', fade: true});
-                            }
-                            if (navs[i].direction === "forward") {
-                                $(".icon-clear2").tipsy({gravity: 'nw', fade: true});
-                            }
+                            $(".icon-clear2").tipsy({gravity: 'nw', fade: true});
                         }
                     }
                 }
@@ -159,27 +189,25 @@
                  * locationTag should match image file, i.e "hurst_main.jpg" (substring removes "#") 
                  */
                 function getImage(locationTag) {
-                    var mainImageDiv = locationTag + "_main_image";
-                    $(mainImageDiv).html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");
+                    $(location.hash + " .main_image").html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");
                 }
 
                 /***Currently using location.hash, this will likely be replaced with getLocation()?
                  * Functions above requires the location tag passed in to be # + location tag name. (i.e "#hurst")
                  */
                 $(window).on('hashchange', function () {
-                    $('.tipsy:last').remove();
                     getImage(location.hash);
                     getHspots(location.hash);
                     getNavs(location.hash);
-                    $(location.hash + "_hotspot_wrapper").hotspot({"show_on": "mouseover", "responsive": true});
-
+                    set_body_height();
+                    $(window).bind('resize', function() { set_body_height(); });
                 });
             });
         </script>
     </head>
     <body class="contextual_navigation">
         <!-- ISSUE: Content width doesn't appear to be responsive in Firefox-->
-        <!-- Div class and id names are important for the JS --> 
+        <!-- Div class names are important for the JS --> 
         <div class="contextual_assets">
             <section class="show" id="start">
                 <a href ="#taylor">
@@ -187,33 +215,87 @@
                 </a>
             </section> 
             <section id="taylor">
-                <div id="taylor_hotspot_wrapper">
-                    <div id="taylor_main_image">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
                     </div> 
-                    <div id="taylor_hotspots">                   
+                    <div class ="hotspots">                   
                     </div> 
                 </div>
-                <div id="taylor_navigation">                   
+                <div class="navigation">                   
                 </div>
             </section>
             <section id="pathway">
-                <div id="pathway_hotspot_wrapper">
-                    <div id="pathway_main_image">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
                     </div> 
-                    <div id="pathway_hotspots">                   
+                    <div class="hotspots">                   
                     </div> 
                 </div>
-                <div id="pathway_navigation">
+                <div class="navigation">
                 </div>
             </section>
             <section id="hurst">
-                <div id="hurst_hotspot_wrapper">
-                    <div id="hurst_main_image">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
                     </div> 
-                    <div id="hurst_hotspots">                   
+                    <div class="hotspots">                   
                     </div> 
                 </div>
-                <div id="hurst_navigation"></div>
+                <div class="navigation"></div>
+            </section>
+            <section id="quigly">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+            </section>
+            <section id="kelley">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+            </section>
+            <section id="pathway2">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+            </section>
+            <section id="library">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+            </section>
+            <section id="universitycenter">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+            </section>
+            <section id="footballfield">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
             </section>
         </div>
     </body>
