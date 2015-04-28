@@ -32,6 +32,13 @@ section:target, .show{
     top: 50%; 
 }
 
+.ui-widget {
+    position: absolute; 
+    top: 0%; 
+    bottom: 90%; 
+    z-index: 100; 
+}
+
 .right_arrow {
     position: absolute; 
     bottom:5%;
@@ -127,13 +134,13 @@ section:target, .show{
 }
 
 .tooltip {
-	display:none;
-	position:absolute;
-	border:1px solid #333;
-	background-color:#161616;
-	border-radius:5px;
-	padding:10px;
-	color:#fff;
-	font-size:12px Arial;
+    display:none;
+    position:absolute;
+    border:1px solid #333;
+    background-color:#161616;
+    border-radius:5px;
+    padding:10px;
+    color:#fff;
+    font-size:12px Arial;
 }
 

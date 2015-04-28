@@ -37,6 +37,52 @@
                     $(location.hash + " .hotspot_wrapper").attr('style', 'height:' + wh + 'px;');
                 }
 
+                function Location(tag, name, description, onCampus) {
+                    this.tag = tag;
+                    this.name = name;
+                    this.description = description;
+                    this.onCampus = onCampus;
+                }
+
+                var taylor = new Location("#taylor", "Taylor Hall",
+                        "Taylor Hall was completed in 1911, and was the original site of the college, " +
+                        "then named the Colorado State Normal School. Taylor Hall is currently the home of " +
+                        "administrative offices, classrooms, faculty offices, computer labs, as well as an " +
+                        "auditorium and theater.", true);
+                var quigley = new Location("#quigley", "Quigley Hall",
+                        "Quigley Hall is the home of the Music and Art departments. The facility contains classrooms, " +
+                        " faculty offices, a recital hall and music rooms.", true);
+                var hurst = new Location("#hurst", "Hurst Hall",
+                        "Hurst houses science, mathematics and computer labs, along with offices.", true);
+                var kelley = new Location("#kelley", "Kelley Hall",
+                        "Topped by solar-hot-water panels that boost its efficiency, Kelley is an important " +
+                        "classroom building, housing Western's Social Sciences and Environment & Sustainability " +
+                        "programs, among others.", true);
+                var library = new Location("#library", "Leslie J. Savage Library",
+                        "Savage Library is the research hub for campus and a great study spot. You'll find the " +
+                        "expected stacks of books, but also access to electronic libraries around the world and " +
+                        "the university archives. Its West Wing is one of the oldest and prettiest buildings on campus, " +
+                        "housing current periodicals, attractive study areas and portraits of all Western's presidents since " +
+                        "the school's founding more than a century back.", true);
+                var universitycenter = new Location("#universitycenter", "University Center",
+                        "The University Center: A prominent, fairly new and extremely capable building that serves " +
+                        "as the hub of student life on campus. University Center houses meeting rooms; University Ballroom; " +
+                        "Rare Air Café dining facility; Mad Jack's snack and coffee shop; Sodexo Food Services; Western's " +
+                        "Bookstore; the University Theater, home to Ruby Cinema (with first-run movies); Wilderness Pursuits " +
+                        "equipment rental and offices; the Multicultural Center; Student Government offices; the Orientation " +
+                        "and LEAD office; Security Services; an ATM; the university mail room; lounge areas with fireplaces " +
+                        "and televisions; and more. You get your new or replacement Mountaineer Card on the ground floor.", true);
+                var footballfield = new Location("#footballfield", "Mountaineer Bowl",
+                        "Western's stadium, home of Mountaineer football and Western's high-tech-surface, 400-meter " +
+                        "track, was carved into the hillside and completed in 1948. At 7,750 feet above sea level, it is " +
+                        "the world's highest collegiate football stadiums, with seating for 4,000 fans, plus plenty of room " +
+                        "for more on its surrounding knolls. Generations of children have showed up at games with scraps of " +
+                        "cardboard to slide down its grassy hill.", true);
+
+                var locations = [taylor, quigley, hurst, kelley, library, universitycenter, footballfield];
+
+
+
                 /**
                  * Creates an instance of a Navigation Item 
                  * @constructor
@@ -66,10 +112,10 @@
                 var taylor_to_pathway = new Navigation("#taylor", "taylor_to_pathway", "forward_arrow", "to pathway", "#pathway", "forward", "#CC0000");
                 var pathway_to_hurst = new Navigation("#pathway", "pathway_to_hurst", "forward_arrow", "to Hurst", "#hurst", "forward", "#CC0000");
                 var pathway_to_taylor = new Navigation("#pathway", "pathway_to_taylor", "back_arrow", "back to Taylor", "#taylor", "back", "#CC0000");
-                var pathway_to_quigly = new Navigation("#pathway", "pathway_to_quigly", "right_arrow", "to Quigly", "#quigly", "right", "#CC0000");
+                var pathway_to_quigly = new Navigation("#pathway", "pathway_to_quigly", "right_arrow", "to Quigly", "#quigley", "right", "#CC0000");
                 var hurst_to_pathway = new Navigation("#hurst", "hurst_to_pathway", "back_arrow", "back to pathway", "#pathway", "back", "#CC0000");
                 var hurst_to_kelley = new Navigation("#hurst", "hurst_to_kelley", "left_arrow", "to Kelley Hall", "#kelley", "left", "#CC0000");
-                var quigly_to_pathway = new Navigation("#quigly", "quigly_to_pathway", "left_arrow", "back to pathway", "#pathway", "left", "#CC0000");
+                var quigly_to_pathway = new Navigation("#quigley", "quigly_to_pathway", "left_arrow", "back to pathway", "#pathway", "left", "#CC0000");
                 var kelley_to_hurst = new Navigation("#kelley", "kelley_to_hurst", "right_arrow", "to Hurst Hall", "#hurst", "right", "#CC0000");
                 var kelley_to_pathway2 = new Navigation("#kelley", "kelley_to_pathway2", "left_arrow", "to pathway", "#pathway2", "left", "#CC0000");
                 var pathway2_to_library = new Navigation("#pathway2", "pathway2_to_library", "forward_arrow", "to Library", "#library", "forward", "#CC0000");
@@ -148,15 +194,15 @@
                  *  Render all navigation items at the current location
                  * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#hurst" 
                  */
-                    function getNavs(locationTag) {
+                function getNavs(locationTag) {
                     $('.tipsy:last').remove();
                     var inner_html = "";
                     for (var i in navs) {
                         if (navs[i].tag === locationTag) {
                             var d = "M526.375,175.442H249.458l101.781-115.23c2.939-5.875-0.006-10.64-6.574-10.64H194.735" +
-			"c-15.012,0.003-34.74,30.233-44.538,41.188C132.96,110.028,3.146,254.326,2.204,256.208c-2.938,5.875-2.938,15.404,0,21.279" +
-			"L177.52,477.449c2.938,5.875,10.646,10.64,17.215,10.64h149.931c6.57,0,9.514-4.765,6.576-10.64l-98.746-114.347h273.879" +
-			"c6.234,0,11.285-5.052,11.285-11.285v-165.09C537.66,180.494,532.609,175.442,526.375,175.442z";
+                                    "c-15.012,0.003-34.74,30.233-44.538,41.188C132.96,110.028,3.146,254.326,2.204,256.208c-2.938,5.875-2.938,15.404,0,21.279" +
+                                    "L177.52,477.449c2.938,5.875,10.646,10.64,17.215,10.64h149.931c6.57,0,9.514-4.765,6.576-10.64l-98.746-114.347h273.879" +
+                                    "c6.234,0,11.285-5.052,11.285-11.285v-165.09C537.66,180.494,532.609,175.442,526.375,175.442z";
                             if (navs[i].direction === "forward") {
                                 var flip = "transform='rotate(90,0,0)'";
                                 var viewBox = "'-502 0 1002 800'";
@@ -193,11 +239,17 @@
                  * locationTag should match image file, i.e "hurst_main.jpg" (substring removes "#") 
                  */
                 function getImage(locationTag) {
-                    $(location.hash + " .main_image").html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");
-                    $(".location-title").html(location.hash); //getLocation name here 
-                    $(".expander-demo").html("<p>Description about this location</p>" +
-                            "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt " +
-                            "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>"); //use getLocation to get location description??
+                    $(location.hash + " .main_image").html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");       
+                }
+
+                function getLocation(locationTag) {
+                    for (var i in locations) {
+                        if (location.hash === locations[i].tag) {
+                            $(location.hash + " .location-title").html(locations[i].name); //getLocation name here 
+                            $(location.hash + " .expander-demo").html("<p>"+ locations[i].description); 
+                        }
+                    }
+                    $(location.hash + ' .collapse').collapsiblePanel();
                 }
 
                 /***Currently using location.hash, this will likely be replaced with getLocation()?
@@ -205,10 +257,10 @@
                  */
                 $(window).on('hashchange', function () {
                     getImage(location.hash);
+                    getLocation(location.hash); 
                     getHspots(location.hash);
                     getNavs(location.hash);
                     set_body_height();
-                    $('.collapse').collapsiblePanel();
                     $(window).bind('resize', function () {
                         set_body_height();
                     });
@@ -226,14 +278,6 @@
                 </a>                
             </section> 
             <section id="taylor">
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
                 <div class="hotspot_wrapper">                    
                     <div class="main_image">
                     </div> 
@@ -242,8 +286,6 @@
                 </div>
                 <div class="navigation">                   
                 </div>
-            </section>
-            <section id="pathway">
                 <div class="ui-widget collapse">
                     <div class="expander-demo-control ui-widget-header">
                         <span class="ui-icon ui-expander floatLeft">+</span>
@@ -252,6 +294,8 @@
                     <div class="expander-demo ui-widget-content">                            
                     </div>
                 </div>
+            </section>
+            <section id="pathway">                
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -260,8 +304,6 @@
                 </div>
                 <div class="navigation">
                 </div>
-            </section>
-            <section id="hurst">
                 <div class="ui-widget collapse">
                     <div class="expander-demo-control ui-widget-header">
                         <span class="ui-icon ui-expander floatLeft">+</span>
@@ -270,6 +312,8 @@
                     <div class="expander-demo ui-widget-content">                            
                     </div>
                 </div>
+            </section>
+            <section id="hurst">                
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -277,8 +321,6 @@
                     </div> 
                 </div>
                 <div class="navigation"></div>
-            </section>
-            <section id="quigly">
                 <div class="ui-widget collapse">
                     <div class="expander-demo-control ui-widget-header">
                         <span class="ui-icon ui-expander floatLeft">+</span>
@@ -287,6 +329,8 @@
                     <div class="expander-demo ui-widget-content">                            
                     </div>
                 </div>
+            </section>
+            <section id="quigley">                
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -294,8 +338,6 @@
                     </div> 
                 </div>
                 <div class="navigation"></div>
-            </section>
-            <section id="kelley">
                 <div class="ui-widget collapse">
                     <div class="expander-demo-control ui-widget-header">
                         <span class="ui-icon ui-expander floatLeft">+</span>
@@ -304,6 +346,8 @@
                     <div class="expander-demo ui-widget-content">                            
                     </div>
                 </div>
+            </section>
+            <section id="kelley">               
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -311,8 +355,6 @@
                     </div> 
                 </div>
                 <div class="navigation"></div>
-            </section>
-            <section id="pathway2">
                 <div class="ui-widget collapse">
                     <div class="expander-demo-control ui-widget-header">
                         <span class="ui-icon ui-expander floatLeft">+</span>
@@ -321,6 +363,8 @@
                     <div class="expander-demo ui-widget-content">                            
                     </div>
                 </div>
+            </section>
+            <section id="pathway2">               
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -328,8 +372,23 @@
                     </div> 
                 </div>
                 <div class="navigation"></div>
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
             </section>
             <section id="library">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
                 <div class="ui-widget collapse">
                     <div class="expander-demo-control ui-widget-header">
                         <span class="ui-icon ui-expander floatLeft">+</span>
@@ -338,15 +397,15 @@
                     <div class="expander-demo ui-widget-content">                            
                     </div>
                 </div>
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
             </section>
             <section id="universitycenter">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
                 <div class="ui-widget collapse">
                     <div class="expander-demo-control ui-widget-header">
                         <span class="ui-icon ui-expander floatLeft">+</span>
@@ -355,15 +414,15 @@
                     <div class="expander-demo ui-widget-content">                            
                     </div>
                 </div>
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
             </section>
             <section id="footballfield">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
                 <div class="ui-widget collapse">
                     <div class="expander-demo-control ui-widget-header">
                         <span class="ui-icon ui-expander floatLeft">+</span>
@@ -372,13 +431,6 @@
                     <div class="expander-demo ui-widget-content">                            
                     </div>
                 </div>
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
             </section>
         </div>
     </body>
