@@ -78,8 +78,16 @@
                         "the world's highest collegiate football stadiums, with seating for 4,000 fans, plus plenty of room " +
                         "for more on its surrounding knolls. Generations of children have showed up at games with scraps of " +
                         "cardboard to slide down its grassy hill.", true);
+                var telluride = new Location("#telluride", "Telluride", "Information about Telluride", false);
+                var taylorcanyon = new Location("#tc", "Taylor Canyon", "Information about Taylor Canyon", false);
+                var aspen = new Location("#aspen", "Aspen", "Information about Aspen", false);
+                var crestedbutte = new Location("#cb", "Crested Butte", "Info about Crested Butte", false);
+                var monarchmountain = new Location("#mm", "Monarch Mountain", "Info about Monarch Mountain", false);
+                var taylorreservoir = new Location("#tr", "Taylor Reservoir", "Info about Taylor Reservoir", false);
+                var hartmanrocks = new Location("#hr", "Hartman Rocks", "Info about Hartman rocks", false);
 
-                var locations = [taylor, quigley, hurst, kelley, library, universitycenter, footballfield];
+                var locations = [taylor, quigley, hurst, kelley, library, universitycenter, footballfield, telluride,
+                    taylorcanyon, aspen, crestedbutte, monarchmountain, taylorreservoir, hartmanrocks];
 
 
 
@@ -125,10 +133,27 @@
                 var universitycenter_to_library = new Navigation("#universitycenter", "universitycenter_to_library", "right_arrow", "to Library", "#library", "right", "#CC0000");
                 var universitycenter_to_footballfield = new Navigation("#universitycenter", "universitycenter_to_footballfield", "left_arrow", "to Football Field", "#footballfield", "left", "#CC0000");
                 var footballfield_to_universitycenter = new Navigation("#footballfield", "footballfield_to_universitycenter", "right_arrow", "to University Center", "#universitycenter", "right", "#CC0000");
+                var aspen_to_telluride = new Navigation("#aspen", "aspen_to_telluride", "right_arrow", "to Telluride", "#telluride", "right", "#CC0000");
+                var telluride_to_aspen = new Navigation("#telluride", "telluride_to_aspen", "left_arrow", "to Aspen", "#aspen", "left", "#CC0000");
+                var telluride_to_cb = new Navigation("#telluride", "telluride_to_cb", "right_arrow", "to Crested Butte", "#cb", "right", "#CC0000");
+                var cb_to_telluride = new Navigation("#cb", "cb_to_telluride", "left_arrow", "to Telluride", "#telluride", "left", "#CC0000");
+                var cb_to_mm = new Navigation("#cb", "cb_to_mm", "right_arrow", "to Monarch Mountain", "#mm", "right", "#CC0000");
+                var mm_to_cb = new Navigation("#mm", "mm_to_cb", "left_arrow", "to Crested Butte", "#cb", "left", "#CC0000");
+                var mm_to_tr = new Navigation("#mm", "mm_to_tr", "right_arrow", "to Taylor Resevoir", "#tr", "right", "#CC0000");
+                var tr_to_mm = new Navigation("#tr", "tr_to_mm", "left_arrow", "to Monarch Mountain", "#mm", "left", "#CC0000");
+                var tr_to_hr = new Navigation("#tr", "tr_to_hr", "right_arrow", "to Hartman's Rocks", "#hr", "right", "#CC0000");
+                var hr_to_tr = new Navigation("#hr", "hr_to_tr", "left_arrow", "to Taylor Resevoir", "#tr", "left", "#CC0000");
+                var hr_to_tc = new Navigation("#hr", "hr_to_tc", "right_arrow", "to Taylor Canyon", "#tc", "right", "#CC0000");
+                var tc_to_hr = new Navigation("#tc", "tc_to_hr", "left_arrow", "to Hartman's Rocks", "#hr", "left", "#CC0000");
+                var tc_to_taylor = new Navigation("#tc", "tc_to_taylor", "right_arrow", "to Taylor Hall", "#taylor", "right", "#CC0000");
+                var hurst_to_aspen = new Navigation("#hurst", "hurst_to_aspen", "right_arrow", "To Aspen", "#aspen", "right", "#CC0000"); 
+                
                 var navs = [taylor_to_pathway, pathway_to_hurst, pathway_to_taylor, pathway_to_quigly, hurst_to_pathway,
                     hurst_to_kelley, quigly_to_pathway, kelley_to_hurst, kelley_to_pathway2, pathway2_to_library,
                     pathway2_to_kelley, library_to_pathway2, library_to_universitycenter, universitycenter_to_library,
-                    universitycenter_to_footballfield, footballfield_to_universitycenter];
+                    universitycenter_to_footballfield, footballfield_to_universitycenter, aspen_to_telluride, telluride_to_aspen, 
+                telluride_to_cb, cb_to_telluride, cb_to_mm, mm_to_cb, mm_to_tr, tr_to_mm, tr_to_hr, hr_to_tr, hr_to_tc, tc_to_hr, 
+            tc_to_taylor, hurst_to_aspen];
 
                 /**
                  * Creates an instance of a Hotspot 
@@ -239,14 +264,14 @@
                  * locationTag should match image file, i.e "hurst_main.jpg" (substring removes "#") 
                  */
                 function getImage(locationTag) {
-                    $(location.hash + " .main_image").html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");       
+                    $(location.hash + " .main_image").html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");
                 }
 
                 function getLocation(locationTag) {
                     for (var i in locations) {
                         if (location.hash === locations[i].tag) {
                             $(location.hash + " .location-title").html(locations[i].name); //getLocation name here 
-                            $(location.hash + " .expander-demo").html("<p>"+ locations[i].description); 
+                            $(location.hash + " .expander-demo").html("<p>" + locations[i].description);
                         }
                     }
                     $(location.hash + ' .collapse').collapsiblePanel();
@@ -257,7 +282,7 @@
                  */
                 $(window).on('hashchange', function () {
                     getImage(location.hash);
-                    getLocation(location.hash); 
+                    getLocation(location.hash);
                     getHspots(location.hash);
                     getNavs(location.hash);
                     set_body_height();
@@ -416,6 +441,125 @@
                 </div>
             </section>
             <section id="footballfield">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
+            </section>
+            <section id="aspen">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
+            </section>
+            <section id="telluride">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
+            </section>
+            <section id="cb">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
+            </section>
+            <section id="tc">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
+            </section>
+            <section id="mm">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
+            </section>
+            <section id="tr">
+                <div class="hotspot_wrapper">
+                    <div class="main_image">
+                    </div> 
+                    <div class="hotspots">                   
+                    </div> 
+                </div>
+                <div class="navigation"></div>
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
+            </section>
+            <section id="hr">
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
