@@ -13,6 +13,8 @@
         <script src="js/lib/jquery.min.js"></script>
         <script src="js/hotspot-map.min.js"></script>
         <script src="js/jquery.tipsy.js"></script>
+        <script src="js/jquery.collapsiblepanel.js"></script>
+        <link rel="stylesheet" type="text/css" media="all" href="http://leghumped.com/css/jquery/ui-darkness/jquery-ui-1.8.16.custom.css" />
         <script type="text/javascript">
             $(function () {
                 /**
@@ -66,20 +68,20 @@
                 var pathway_to_taylor = new Navigation("#pathway", "pathway_to_taylor", "back_arrow", "back to Taylor", "#taylor", "back", "#CC0000");
                 var pathway_to_quigly = new Navigation("#pathway", "pathway_to_quigly", "right_arrow", "to Quigly", "#quigly", "right", "#CC0000");
                 var hurst_to_pathway = new Navigation("#hurst", "hurst_to_pathway", "back_arrow", "back to pathway", "#pathway", "back", "#CC0000");
-                var hurst_to_kelley = new Navigation("#hurst", "hurst_to_kelley", "left_arrow", "to Kelley Hall", "#kelley", "left", "#CC0000"); 
-                var quigly_to_pathway = new Navigation("#quigly", "quigly_to_pathway", "left_arrow", "back to pathway", "#pathway", "left", "#CC0000"); 
-                var kelley_to_hurst = new Navigation("#kelley", "kelley_to_hurst", "right_arrow", "to Hurst Hall", "#hurst", "right", "#CC0000"); 
-                var kelley_to_pathway2 = new Navigation("#kelley", "kelley_to_pathway2", "left_arrow", "to pathway", "#pathway2", "left", "#CC0000"); 
-                var pathway2_to_library = new Navigation("#pathway2", "pathway2_to_library", "forward_arrow", "to Library", "#library", "forward", "#CC0000"); 
-                var pathway2_to_kelley = new Navigation("#pathway2", "pathway2_to_kelley", "back_arrow", "to Kelley Hall", "#kelley", "back", "#CC0000"); 
-                var library_to_pathway2 = new Navigation("#library", "library_to_pathway2", "back_arrow", "to pathway", "#pathway2", "back", "#CC0000"); 
-                var library_to_universitycenter = new Navigation("#library", "library_to_universitycenter", "forward_arrow", "to University Center", "#universitycenter", "forward", "#CC0000"); 
-                var universitycenter_to_library = new Navigation("#universitycenter", "universitycenter_to_library", "right_arrow", "to Library", "#library", "right", "#CC0000"); 
-                var universitycenter_to_footballfield = new Navigation("#universitycenter", "universitycenter_to_footballfield", "left_arrow", "to Football Field", "#footballfield", "left", "#CC0000"); 
-                var footballfield_to_universitycenter = new Navigation("#footballfield", "footballfield_to_universitycenter", "right_arrow", "to University Center", "#universitycenter", "right", "#CC0000"); 
-                var navs = [taylor_to_pathway, pathway_to_hurst, pathway_to_taylor, pathway_to_quigly, hurst_to_pathway, 
-                    hurst_to_kelley, quigly_to_pathway, kelley_to_hurst, kelley_to_pathway2, pathway2_to_library, 
-                    pathway2_to_kelley, library_to_pathway2, library_to_universitycenter, universitycenter_to_library, 
+                var hurst_to_kelley = new Navigation("#hurst", "hurst_to_kelley", "left_arrow", "to Kelley Hall", "#kelley", "left", "#CC0000");
+                var quigly_to_pathway = new Navigation("#quigly", "quigly_to_pathway", "left_arrow", "back to pathway", "#pathway", "left", "#CC0000");
+                var kelley_to_hurst = new Navigation("#kelley", "kelley_to_hurst", "right_arrow", "to Hurst Hall", "#hurst", "right", "#CC0000");
+                var kelley_to_pathway2 = new Navigation("#kelley", "kelley_to_pathway2", "left_arrow", "to pathway", "#pathway2", "left", "#CC0000");
+                var pathway2_to_library = new Navigation("#pathway2", "pathway2_to_library", "forward_arrow", "to Library", "#library", "forward", "#CC0000");
+                var pathway2_to_kelley = new Navigation("#pathway2", "pathway2_to_kelley", "back_arrow", "to Kelley Hall", "#kelley", "back", "#CC0000");
+                var library_to_pathway2 = new Navigation("#library", "library_to_pathway2", "back_arrow", "to pathway", "#pathway2", "back", "#CC0000");
+                var library_to_universitycenter = new Navigation("#library", "library_to_universitycenter", "forward_arrow", "to University Center", "#universitycenter", "forward", "#CC0000");
+                var universitycenter_to_library = new Navigation("#universitycenter", "universitycenter_to_library", "right_arrow", "to Library", "#library", "right", "#CC0000");
+                var universitycenter_to_footballfield = new Navigation("#universitycenter", "universitycenter_to_footballfield", "left_arrow", "to Football Field", "#footballfield", "left", "#CC0000");
+                var footballfield_to_universitycenter = new Navigation("#footballfield", "footballfield_to_universitycenter", "right_arrow", "to University Center", "#universitycenter", "right", "#CC0000");
+                var navs = [taylor_to_pathway, pathway_to_hurst, pathway_to_taylor, pathway_to_quigly, hurst_to_pathway,
+                    hurst_to_kelley, quigly_to_pathway, kelley_to_hurst, kelley_to_pathway2, pathway2_to_library,
+                    pathway2_to_kelley, library_to_pathway2, library_to_universitycenter, universitycenter_to_library,
                     universitycenter_to_footballfield, footballfield_to_universitycenter];
 
                 /**
@@ -115,9 +117,9 @@
                 /**
                  * Hspot object instances 
                  */
-                var taylor_hotspot = new Hspot("#taylor", "taylor_hotspot", 47, 50, 8, 8, 
-                "Taylor Hall <br><br> <a href='panoramas/Taylor_Panorama/Taylor_Panorama.html' TARGET='_blank'>View Panorama</a>", 
-                150, null, "right", "rect");
+                var taylor_hotspot = new Hspot("#taylor", "taylor_hotspot", 47, 50, 8, 8,
+                        "Taylor Hall <br><br> <a href='panoramas/Taylor_Panorama/Taylor_Panorama.html' TARGET='_blank'>View Panorama</a>",
+                        150, null, "right", "rect");
                 var hurst_hotspot = new Hspot("#hurst", "hurst_hotspot", 50, 34, 30, 30, "This is Hurst, the building above all buildings. Check out the super cool things about it. So much Hurst.", 200, null, "bottom", "spot");
                 var hotspots = [taylor_hotspot, hurst_hotspot];
 
@@ -166,7 +168,7 @@
                                 viewBox = "'-450 -150 502 300'";
                             }
                             if (navs[i].direction === "left") {
-                                flip = "transform='rotate(-90,0,0)'"; 
+                                flip = "transform='rotate(-90,0,0)'";
                                 viewBox = "'-150 -200 502 300'";
                             }
                             inner_html += "<svg " + navs[i].dest + "' class=' " + navs[i].styleClass +
@@ -191,6 +193,10 @@
                  */
                 function getImage(locationTag) {
                     $(location.hash + " .main_image").html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");
+                    $(".location-title").html(location.hash); //getLocation name here 
+                    $(".expander-demo").html("<p>Description about this location</p>" +
+                            "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt " +
+                            "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>"); //use getLocation to get location description??
                 }
 
                 /***Currently using location.hash, this will likely be replaced with getLocation()?
@@ -201,7 +207,10 @@
                     getHspots(location.hash);
                     getNavs(location.hash);
                     set_body_height();
-                    $(window).bind('resize', function() { set_body_height(); });
+                    $('.collapse').collapsiblePanel();
+                    $(window).bind('resize', function () {
+                        set_body_height();
+                    });
                 });
             });
         </script>
@@ -213,10 +222,18 @@
             <section class="show" id="start">
                 <a href ="#taylor">
                     <button class="beginButton">Begin Tour</button>
-                </a>
+                </a>                
             </section> 
             <section id="taylor">
-                <div class="hotspot_wrapper">
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
+                <div class="hotspot_wrapper">                    
                     <div class="main_image">
                     </div> 
                     <div class ="hotspots">                   
@@ -226,6 +243,14 @@
                 </div>
             </section>
             <section id="pathway">
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -236,6 +261,14 @@
                 </div>
             </section>
             <section id="hurst">
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -245,6 +278,14 @@
                 <div class="navigation"></div>
             </section>
             <section id="quigly">
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -254,6 +295,14 @@
                 <div class="navigation"></div>
             </section>
             <section id="kelley">
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -263,6 +312,14 @@
                 <div class="navigation"></div>
             </section>
             <section id="pathway2">
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -272,6 +329,14 @@
                 <div class="navigation"></div>
             </section>
             <section id="library">
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -281,6 +346,14 @@
                 <div class="navigation"></div>
             </section>
             <section id="universitycenter">
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
@@ -290,6 +363,14 @@
                 <div class="navigation"></div>
             </section>
             <section id="footballfield">
+                <div class="ui-widget collapse">
+                    <div class="expander-demo-control ui-widget-header">
+                        <span class="ui-icon ui-expander floatLeft">+</span>
+                        <span class="location-title" style="display: inline"></span>
+                    </div>
+                    <div class="expander-demo ui-widget-content">                            
+                    </div>
+                </div>
                 <div class="hotspot_wrapper">
                     <div class="main_image">
                     </div> 
