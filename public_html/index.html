@@ -148,28 +148,30 @@
                  *  Render all navigation items at the current location
                  * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#hurst" 
                  */
-                function getNavs(locationTag) {
+                    function getNavs(locationTag) {
                     $('.tipsy:last').remove();
                     var inner_html = "";
                     for (var i in navs) {
                         if (navs[i].tag === locationTag) {
-                            var d = "M202.969,0l-99.438,130.824h52.213c8.629,89.9-25.768,176.225-120.373,206.957" +
-                                    "c121.697,0.34,190.641-99.896,213.967-206.957h53.072L202.969,0z";
+                            var d = "M526.375,175.442H249.458l101.781-115.23c2.939-5.875-0.006-10.64-6.574-10.64H194.735" +
+			"c-15.012,0.003-34.74,30.233-44.538,41.188C132.96,110.028,3.146,254.326,2.204,256.208c-2.938,5.875-2.938,15.404,0,21.279" +
+			"L177.52,477.449c2.938,5.875,10.646,10.64,17.215,10.64h149.931c6.57,0,9.514-4.765,6.576-10.64l-98.746-114.347h273.879" +
+			"c6.234,0,11.285-5.052,11.285-11.285v-165.09C537.66,180.494,532.609,175.442,526.375,175.442z";
                             if (navs[i].direction === "forward") {
-                                var flip = 0;
-                                var viewBox = "'0 0 502 300'";
+                                var flip = "transform='rotate(90,0,0)'";
+                                var viewBox = "'-502 0 1002 800'";
                             }
                             if (navs[i].direction === "back") {
-                                flip = "transform='rotate(180 0 0)'";
-                                viewBox = "'-300 -450 502 300'";
+                                flip = "transform='rotate(-90 0 0)'";
+                                viewBox = "'-400 -250 1002 800'";
                             }
                             if (navs[i].direction === "right") {
-                                flip = "transform='rotate(90,0,0)'";
-                                viewBox = "'-450 -150 502 300'";
+                                flip = "transform='rotate(180,0,0)'";
+                                viewBox = "'-502 -250 1002 800'";
                             }
                             if (navs[i].direction === "left") {
-                                flip = "transform='rotate(-90,0,0)'";
-                                viewBox = "'-150 -200 502 300'";
+                                flip = 0;
+                                viewBox = "'-150 -200 1002 800'";
                             }
                             inner_html += "<svg " + navs[i].dest + "' class=' " + navs[i].styleClass +
                                     " icon-clear icon-clear2' version='1.1' x='0px' y='0px' " +
@@ -185,7 +187,6 @@
                         }
                     }
                 }
-
                 /**
                  * Render main image for the current location
                  * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#hurst"
