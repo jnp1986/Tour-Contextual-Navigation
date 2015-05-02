@@ -58,14 +58,16 @@
                         "The world's highest collegiate football stadium", true);
                 var telluride = new Location("#telluride", "Telluride", "offcampus", "Information about Telluride", false);
                 var taylorcanyon = new Location("#tc", "Taylor Canyon", "offcampus", "Information about Taylor Canyon", false);
-                var aspen = new Location("#aspen", "Aspen", "offcampus", "Information about Aspen", false);
                 var crestedbutte = new Location("#cb", "Crested Butte", "offcampus", "Info about Crested Butte", false);
                 var monarchmountain = new Location("#mm", "Monarch Mountain", "offcampus", "Info about Monarch Mountain", false);
                 var taylorreservoir = new Location("#tr", "Taylor Reservoir", "offcampus", "Info about Taylor Reservoir", false);
                 var hartmanrocks = new Location("#hr", "Hartman Rocks", "recreation", "Info about Hartman rocks", false);
+                var cbmr = new Location("#cbmr", "Crested Butte Mountain Resort", "offcampus", "Info About Crested Butte Mountain Resort", false);
+                var artscenter = new Location ("#artscenter", "Gunnison Arts Center", "offcampus", "Info about Gunnison Arts Center", false);
+                var wmountain = new Location ("#wmountain", "W Mountain", "offcampus", "Info about W Mountain", false);
 
                 var locations = [taylor, quigley, hurst, kelley, library, universitycenter, footballfield, telluride,
-                    taylorcanyon, aspen, crestedbutte, monarchmountain, taylorreservoir, hartmanrocks];
+                    taylorcanyon, crestedbutte, monarchmountain, taylorreservoir, hartmanrocks, cbmr, artscenter, wmountain];
 
                 var currentLocation;
 
@@ -131,8 +133,9 @@
                 var universitycenter_to_library = new Navigation("#universitycenter", "universitycenter_to_library", "to Library", "#library", "right", 800, 130);
                 var universitycenter_to_footballfield = new Navigation("#universitycenter", "universitycenter_to_footballfield", "to Football Field", "#footballfield", "left", 600, 130);
                 var footballfield_to_universitycenter = new Navigation("#footballfield", "footballfield_to_universitycenter", "to University Center", "#universitycenter", "right", 800, 130);
-                var aspen_to_telluride = new Navigation("#aspen", "aspen_to_telluride", "to Telluride", "#telluride", "right", 800, 130);
-                var telluride_to_aspen = new Navigation("#telluride", "telluride_to_aspen", "to Aspen", "#aspen", "left");
+                
+                var cbmr_to_telluride = new Navigation("#cbmr", "cbmr_to_telluride", "to Telluride", "#telluride", "right", 800, 130);
+                var telluride_to_cbmr = new Navigation("#telluride", "telluride_to_cbmr", "to CBMR", "#cbmr", "left");
                 var telluride_to_cb = new Navigation("#telluride", "telluride_to_cb", "to Crested Butte", "#cb", "right");
                 var cb_to_telluride = new Navigation("#cb", "cb_to_telluride", "to Telluride", "#telluride", "left");
                 var cb_to_mm = new Navigation("#cb", "cb_to_mm", "to Monarch Mountain", "#mm", "right");
@@ -143,16 +146,19 @@
                 var hr_to_tr = new Navigation("#hr", "hr_to_tr", "to Taylor Resevoir", "#tr", "left");
                 var hr_to_tc = new Navigation("#hr", "hr_to_tc", "to Taylor Canyon", "#tc", "right");
                 var tc_to_hr = new Navigation("#tc", "tc_to_hr", "to Hartman's Rocks", "#hr", "left");
-                var tc_to_taylor = new Navigation("#tc", "tc_to_taylor", "to Taylor Hall", "#taylor", "right");
-                var hurst_to_aspen = new Navigation("#hurst", "hurst_to_aspen", "To Aspen", "#aspen", "right", 800, 130);
-                var aspen_to_hurst = new Navigation("#aspen", "aspen_to_hurst", "back to Hurst Hall", "#hurst", "left"); 
-
+                var tc_to_wmountain = new Navigation("#tc", "tc_to_wmountain", "to W Mountain", "#wmountain", "right"); 
+                var wmountain_to_tc = new Navigation("#wmountain", "wmountain_to_tc", "to Taylor Canyon", "#tc", "left"); 
+                var wmountain_to_artscenter = new Navigation("#wmountain", "wmountain_to_artscenter", "to Arts Center", "#artscenter", "right"); 
+                var artscenter_to_wmountain = new Navigation("#artscenter", "artscenter_to_wmountain", "to W Mountain", "#wmountain", "left"); 
+                var artscenter_to_cbmr = new Navigation("#artscenter", "artscenter_to_cbmr", "to CBMR", "#cbmr", "right"); 
+                var cbmr_to_artscenter = new Navigation("#cbmr", "cbmr_to_artscenter", "to Arts Center", "#artscenter", "left"); 
+              
                 var navs = [taylor_to_pathway, pathway_to_hurst, pathway_to_taylor, pathway_to_quigly, hurst_to_pathway,
                     hurst_to_kelley, quigly_to_pathway, kelley_to_hurst, kelley_to_pathway2, pathway2_to_library,
                     pathway2_to_kelley, library_to_pathway2, library_to_universitycenter, universitycenter_to_library,
-                    universitycenter_to_footballfield, footballfield_to_universitycenter, aspen_to_telluride, telluride_to_aspen,
+                    universitycenter_to_footballfield, footballfield_to_universitycenter, cbmr_to_telluride, telluride_to_cbmr,
                     telluride_to_cb, cb_to_telluride, cb_to_mm, mm_to_cb, mm_to_tr, tr_to_mm, tr_to_hr, hr_to_tr, hr_to_tc, tc_to_hr,
-                    tc_to_taylor, hurst_to_aspen, aspen_to_hurst];
+                    tc_to_wmountain, wmountain_to_tc, artscenter_to_wmountain, artscenter_to_cbmr, cbmr_to_artscenter, wmountain_to_artscenter];
 
                 /**
                  *  Render all navigation items at the current location
@@ -163,9 +169,9 @@
                     var inner_html = "";
                     var items = [];
                     for (var i in navs) {
-                        if (currentLocation.onCampus) {
-                            if (navs[i].tag === locationTag) {
-                                inner_html += "<img onclick=javascript:window.location.hash='" + navs[i].dest + "' class='" +
+                        if (currentLocation.onCampus) {                           
+                            if (navs[i].tag === locationTag) {                                
+                                inner_html += "<button class='switch_button' onclick=javascript:window.location.hash='#cb'>Go Off Campus</button><img onclick=javascript:window.location.hash='" + navs[i].dest + "' class='" +
                                         navs[i].name + " arrow' src='imgs/nav_arrows/" + navs[i].direction + "_white.png'" +
                                         "onmouseover=" + "this.src='imgs/nav_arrows/" + navs[i].direction + "_hover.png'" +
                                         " onmouseout=" + "this.src='imgs/nav_arrows/" + navs[i].direction + "_white.png' " +
@@ -184,7 +190,7 @@
                         }
                         else {
                             if (navs[i].tag === locationTag) {
-                                inner_html += "<img onclick=javascript:window.location.hash='" + navs[i].dest + "' class='" +
+                                inner_html += "<button class='switch_button' onclick=javascript:window.location.hash='#taylor'>Go On Campus</button><img onclick=javascript:window.location.hash='" + navs[i].dest + "' class='" +
                                         navs[i].direction + "_offcampus arrow' src='imgs/nav_arrows/" + navs[i].direction + "_offcampus.png'" +
                                         "onmouseover=" + "this.src='imgs/nav_arrows/" + navs[i].direction + "_offcampus_hover.png'" +
                                         " onmouseout=" + "this.src='imgs/nav_arrows/" + navs[i].direction + "_offcampus.png' " +
@@ -201,37 +207,23 @@
                  * @constructor
                  * @this {Hspot}
                  * @param {string} tag The location tag of the hotspot (should be in form # + location, i.e #hurst
-                 * @param {string} name The name of the location corresponding to div id to be filled
-                 * @param {Number} xLoc The x coordinate of the hotspot.
-                 * @param {Number} yLoc The y coordinate of the hotspot.
-                 * @param {Number} width The width of the hotspot.
-                 * @param {Number} height The height of the hotspot.
-                 * @param {Number} ttipWidth The width of the tooltip.
-                 * @param {string} image The html code for image, i.e "<img src = . . ."
-                 * @param {string} position The position of the tooltip in relation to hspot, i.e. "top", "bottom", "left", "right"
-                 * @param {string} type of hotspot, i.e. "spot", "rect"
+                 * @param {string} ttip Tooltip for hotspot
+                 * @param {string} dest The destination for hotspot (in form #hurst) 
+                 * @param {Number} x The x coordinate of the hotspot (in pixels) 
+                 * @param {Number} y The y coordinate of the hotspot (in pixels)
                  */
-                function Hspot(tag, name, xLoc, yLoc, width, height, text, ttipWidth, image, position, type) {
+                function Hspot(tag, ttip, dest, x, y) {
                     this.tag = tag;
-                    this.name = name;
-                    this.xLoc = xLoc;
-                    this.yLoc = yLoc;
-                    this.width = width;
-                    this.height = height;
-                    this.text = text;
-                    this.ttipWidth = ttipWidth;
-                    this.image = image;
-                    this.position = position;
-                    this.type = type;
+                    this.ttip = ttip; 
+                    this.dest = dest; 
+                    this.x = x; 
+                    this.y = y; 
                 }
 
                 /**
                  * Hspot object instances
                  */
-                var taylor_hotspot = new Hspot("#taylor", "taylor_hotspot", 70, 30, 15, 30, "Taylor Hall", 100, null, "bottom", "spot");
-                var pathway_hotspot = new Hspot("#pathway", "pathway_hotspot", 70, 30, 8, 8, "some trees", 100, null, "left", "rect");
-                var hurst_hotspot = new Hspot("#hurst", "hurst_hotspot", 50, 34, 30, 30, "This is Hurst, the building above all buildings. Check out the super cool things about it. So much Hurst.", 200, null, "bottom", "spot");
-                var hotspots = [taylor_hotspot, pathway_hotspot, hurst_hotspot];
+                var taylor_hotspot = new Hspot("#taylor", "view Panorama", "fill", 700, 600);
 
                 /**
                  * Render all hotspots at the current location
