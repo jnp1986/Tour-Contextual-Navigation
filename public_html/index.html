@@ -1,174 +1,215 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Contextual Navigation</title>
-        <meta charset="UTF-8">
+        <title>Western Virtual Tour</title>
+        <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/hotspot-map.min.css" type="text/css"/>
         <link type="text/css" rel="stylesheet" href="css/cnstyle.css">
         <link type="text/css" rel="stylesheet" href="css/tipsy.css">
         <link type="text/css" rel="stylesheet" href="css/tipsy-docs.css">
-        <!-- include jQuery library -->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-        <script src="js/lib/jquery.min.js"></script>
-        <script src="js/hotspot-map.min.js"></script>
         <script src="js/jquery.tipsy.js"></script>
-        <script src="js/jquery.collapsiblepanel.js"></script>
-        <link rel="stylesheet" type="text/css" media="all" href="http://leghumped.com/css/jquery/ui-darkness/jquery-ui-1.8.16.custom.css" />
         <script type="text/javascript">
             $(function () {
-                /**
-                 * Lines 23-30 are only in place for demo purposes until we hook everything up
-                 * They can be removed at some point along with the "show" section in html
-                 * Anything that references #start and .show in cnstyle.css can also be removed at that time
-                 */
+                $('.caption_wrapper').hide();
                 if (location.hash !== "") {
                     $("#start").removeClass("show");
                 }
-
                 $("#start").find("a").on("click", function () {
                     $("#start").removeClass("show");
                     $(this).off("click");
                 });
 
-                function set_body_height()
-                {
-                    var wh = $(window).height();
-                    $(location.hash + " .hotspot_wrapper").attr('style', 'height:' + wh + 'px;');
-                }
-
-                function Location(tag, name, description, onCampus) {
-                    this.tag = tag;
-                    this.name = name;
-                    this.description = description;
-                    this.onCampus = onCampus;
-                }
-
-                var taylor = new Location("#taylor", "Taylor Hall",
-                        "Taylor Hall was completed in 1911, and was the original site of the college, " +
-                        "then named the Colorado State Normal School. Taylor Hall is currently the home of " +
-                        "administrative offices, classrooms, faculty offices, computer labs, as well as an " +
-                        "auditorium and theater.", true);
-                var quigley = new Location("#quigley", "Quigley Hall",
-                        "Quigley Hall is the home of the Music and Art departments. The facility contains classrooms, " +
-                        " faculty offices, a recital hall and music rooms.", true);
-                var hurst = new Location("#hurst", "Hurst Hall",
-                        "Hurst houses science, mathematics and computer labs, along with offices.", true);
-                var kelley = new Location("#kelley", "Kelley Hall",
-                        "Topped by solar-hot-water panels that boost its efficiency, Kelley is an important " +
-                        "classroom building, housing Western's Social Sciences and Environment & Sustainability " +
-                        "programs, among others.", true);
-                var library = new Location("#library", "Leslie J. Savage Library",
-                        "Savage Library is the research hub for campus and a great study spot. You'll find the " +
-                        "expected stacks of books, but also access to electronic libraries around the world and " +
-                        "the university archives. Its West Wing is one of the oldest and prettiest buildings on campus, " +
-                        "housing current periodicals, attractive study areas and portraits of all Western's presidents since " +
-                        "the school's founding more than a century back.", true);
-                var universitycenter = new Location("#universitycenter", "University Center",
-                        "The University Center: A prominent, fairly new and extremely capable building that serves " +
-                        "as the hub of student life on campus. University Center houses meeting rooms; University Ballroom; " +
-                        "Rare Air Café dining facility; Mad Jack's snack and coffee shop; Sodexo Food Services; Western's " +
-                        "Bookstore; the University Theater, home to Ruby Cinema (with first-run movies); Wilderness Pursuits " +
-                        "equipment rental and offices; the Multicultural Center; Student Government offices; the Orientation " +
-                        "and LEAD office; Security Services; an ATM; the university mail room; lounge areas with fireplaces " +
-                        "and televisions; and more. You get your new or replacement Mountaineer Card on the ground floor.", true);
-                var footballfield = new Location("#footballfield", "Mountaineer Bowl",
-                        "Western's stadium, home of Mountaineer football and Western's high-tech-surface, 400-meter " +
-                        "track, was carved into the hillside and completed in 1948. At 7,750 feet above sea level, it is " +
-                        "the world's highest collegiate football stadiums, with seating for 4,000 fans, plus plenty of room " +
-                        "for more on its surrounding knolls. Generations of children have showed up at games with scraps of " +
-                        "cardboard to slide down its grassy hill.", true);
-                var telluride = new Location("#telluride", "Telluride", "Information about Telluride", false);
-                var taylorcanyon = new Location("#tc", "Taylor Canyon", "Information about Taylor Canyon", false);
-                var aspen = new Location("#aspen", "Aspen", "Information about Aspen", false);
-                var crestedbutte = new Location("#cb", "Crested Butte", "Info about Crested Butte", false);
-                var monarchmountain = new Location("#mm", "Monarch Mountain", "Info about Monarch Mountain", false);
-                var taylorreservoir = new Location("#tr", "Taylor Reservoir", "Info about Taylor Reservoir", false);
-                var hartmanrocks = new Location("#hr", "Hartman Rocks", "Info about Hartman rocks", false);
-
-                var locations = [taylor, quigley, hurst, kelley, library, universitycenter, footballfield, telluride,
-                    taylorcanyon, aspen, crestedbutte, monarchmountain, taylorreservoir, hartmanrocks];
-
-
-
                 /**
-                 * Creates an instance of a Navigation Item 
+                 * Creates an instance of a Location Item
                  * @constructor
                  * @this {Navigation}
                  * @param {string} tag The location tag of the navigation item (should be in form # + location, i.e #hurst
                  * @param {string} name The name of the navigation item corresponding to div id to be filled
-                 * @param {string} styleClass The CSS style to apply
-                 * @param {string} ttip Tool tip 
-                 * @param {string} destination The hash location destination (i.e. "#hurst) 
-                 * @param {string} direction The direction of navigation arrow (i.e. "back", "forward", "right", "left") 
-                 * @param {string} fillColor Arrow fill color in form #CC0000
+                 * @param {string} locationType Type of location, i.e. "academic", etc
+                 * @param {string} description The description of the current location
+                 * @param {Boolean} onCampus If location is on campus or off campus
                  */
-                function Navigation(tag, name, styleClass, ttip, dest, direction, fillColor) {
+                function Location(tag, name, locationType, description, onCampus) {
                     this.tag = tag;
                     this.name = name;
-                    this.styleClass = styleClass;
+                    this.locationType = locationType; 
+                    this.description = description;
+                    this.onCampus = onCampus;
+                }
+
+                /**
+                 * Location object instances
+                 */
+                var taylor = new Location("#taylor", "Taylor Hall", "academic",
+                        "Home of administrative offices, classrooms, faculty offices, computer labs, as well as an " +
+                        "auditorium and theater.", true);
+                var quigley = new Location("#quigley", "Quigley Hall", "academic",
+                        "Home of the Music and Art departments", true);
+                var hurst = new Location("#hurst", "Hurst Hall", "academic",
+                        "Home of Science and Mathematics departments", true);
+                var kelley = new Location("#kelley", "Kelley Hall", "academic",
+                        "Home of Social Sciences and Environment & Sustainability programs", true);
+                var library = new Location("#library", "Leslie J. Savage Library", "studentlife",
+                        "The research hub for campus and a great study spot", true);
+                var universitycenter = new Location("#universitycenter", "University Center", "studentlife",
+                        "The hub of student life on campus", true);
+                var footballfield = new Location("#footballfield", "Mountaineer Bowl", "athletic",
+                        "The world's highest collegiate football stadium", true);
+                var telluride = new Location("#telluride", "Telluride", "offcampus", "Information about Telluride", false);
+                var taylorcanyon = new Location("#tc", "Taylor Canyon", "offcampus", "Information about Taylor Canyon", false);
+                var aspen = new Location("#aspen", "Aspen", "offcampus", "Information about Aspen", false);
+                var crestedbutte = new Location("#cb", "Crested Butte", "offcampus", "Info about Crested Butte", false);
+                var monarchmountain = new Location("#mm", "Monarch Mountain", "offcampus", "Info about Monarch Mountain", false);
+                var taylorreservoir = new Location("#tr", "Taylor Reservoir", "offcampus", "Info about Taylor Reservoir", false);
+                var hartmanrocks = new Location("#hr", "Hartman Rocks", "recreation", "Info about Hartman rocks", false);
+
+                var locations = [taylor, quigley, hurst, kelley, library, universitycenter, footballfield, telluride,
+                    taylorcanyon, aspen, crestedbutte, monarchmountain, taylorreservoir, hartmanrocks];
+
+                var currentLocation;
+
+                function getLocation(locationTag) {
+                    $('.caption_wrapper:last').hide();
+                    for (var i in locations) {
+                        if (locationTag === locations[i].tag) {
+                            $(".caption_title").html(locations[i].name); //getLocation name here 
+                            $(".caption_text").html(locations[i].description);
+                            fade();
+                            currentLocation = locations[i];
+                            break;
+                        }
+                    }
+                }
+
+                /**
+                 * Fade in/out text overlay
+                 */
+                function fade() {
+                    $('.caption_wrapper').fadeIn().delay(3000);
+                    $('.caption_wrapper').fadeOut(2000);
+                }
+
+                /**
+                 * Creates an instance of a Navigation Item
+                 * @constructor
+                 * @this {Navigation}
+                 * @param {string} tag The location tag of the navigation item (should be in form # + location, i.e #hurst
+                 * @param {string} name The name of the navigation item corresponding to div id to be filled
+                 * @param {string} ttip Tool tip
+                 * @param {string} destination The hash location destination (i.e. "#hurst)
+                 * @param {string} direction The direction of navigation arrow (i.e. "back", "forward", "right", "left")
+                 * @param {number} x x coordinate in pixels (for on campus) 
+                 * @param {number} y y coordinate in pixels (for on campus) 
+                 */
+                function Navigation(tag, name, ttip, dest, direction, x, y) {
+                    this.tag = tag;
+                    this.name = name;
                     this.ttip = ttip;
                     this.dest = dest;
                     this.direction = direction;
-                    this.fillColor = fillColor;
+                    this.x = x;
+                    this.y = y;
                 }
-                ;
 
                 /**
-                 * Navigation object instances 
+                 * Navigation object instances
                  */
-                var taylor_to_pathway = new Navigation("#taylor", "taylor_to_pathway", "forward_arrow", "to pathway", "#pathway", "forward", "#CC0000");
-                var pathway_to_hurst = new Navigation("#pathway", "pathway_to_hurst", "forward_arrow", "to Hurst", "#hurst", "forward", "#CC0000");
-                var pathway_to_taylor = new Navigation("#pathway", "pathway_to_taylor", "back_arrow", "back to Taylor", "#taylor", "back", "#CC0000");
-                var pathway_to_quigly = new Navigation("#pathway", "pathway_to_quigly", "right_arrow", "to Quigly", "#quigley", "right", "#CC0000");
-                var hurst_to_pathway = new Navigation("#hurst", "hurst_to_pathway", "back_arrow", "back to pathway", "#pathway", "back", "#CC0000");
-                var hurst_to_kelley = new Navigation("#hurst", "hurst_to_kelley", "left_arrow", "to Kelley Hall", "#kelley", "left", "#CC0000");
-                var quigly_to_pathway = new Navigation("#quigley", "quigly_to_pathway", "left_arrow", "back to pathway", "#pathway", "left", "#CC0000");
-                var kelley_to_hurst = new Navigation("#kelley", "kelley_to_hurst", "right_arrow", "to Hurst Hall", "#hurst", "right", "#CC0000");
-                var kelley_to_pathway2 = new Navigation("#kelley", "kelley_to_pathway2", "left_arrow", "to pathway", "#pathway2", "left", "#CC0000");
-                var pathway2_to_library = new Navigation("#pathway2", "pathway2_to_library", "forward_arrow", "to Library", "#library", "forward", "#CC0000");
-                var pathway2_to_kelley = new Navigation("#pathway2", "pathway2_to_kelley", "back_arrow", "to Kelley Hall", "#kelley", "back", "#CC0000");
-                var library_to_pathway2 = new Navigation("#library", "library_to_pathway2", "back_arrow", "to pathway", "#pathway2", "back", "#CC0000");
-                var library_to_universitycenter = new Navigation("#library", "library_to_universitycenter", "forward_arrow", "to University Center", "#universitycenter", "forward", "#CC0000");
-                var universitycenter_to_library = new Navigation("#universitycenter", "universitycenter_to_library", "right_arrow", "to Library", "#library", "right", "#CC0000");
-                var universitycenter_to_footballfield = new Navigation("#universitycenter", "universitycenter_to_footballfield", "left_arrow", "to Football Field", "#footballfield", "left", "#CC0000");
-                var footballfield_to_universitycenter = new Navigation("#footballfield", "footballfield_to_universitycenter", "right_arrow", "to University Center", "#universitycenter", "right", "#CC0000");
-                var aspen_to_telluride = new Navigation("#aspen", "aspen_to_telluride", "right_arrow", "to Telluride", "#telluride", "right", "#CC0000");
-                var telluride_to_aspen = new Navigation("#telluride", "telluride_to_aspen", "left_arrow", "to Aspen", "#aspen", "left", "#CC0000");
-                var telluride_to_cb = new Navigation("#telluride", "telluride_to_cb", "right_arrow", "to Crested Butte", "#cb", "right", "#CC0000");
-                var cb_to_telluride = new Navigation("#cb", "cb_to_telluride", "left_arrow", "to Telluride", "#telluride", "left", "#CC0000");
-                var cb_to_mm = new Navigation("#cb", "cb_to_mm", "right_arrow", "to Monarch Mountain", "#mm", "right", "#CC0000");
-                var mm_to_cb = new Navigation("#mm", "mm_to_cb", "left_arrow", "to Crested Butte", "#cb", "left", "#CC0000");
-                var mm_to_tr = new Navigation("#mm", "mm_to_tr", "right_arrow", "to Taylor Resevoir", "#tr", "right", "#CC0000");
-                var tr_to_mm = new Navigation("#tr", "tr_to_mm", "left_arrow", "to Monarch Mountain", "#mm", "left", "#CC0000");
-                var tr_to_hr = new Navigation("#tr", "tr_to_hr", "right_arrow", "to Hartman's Rocks", "#hr", "right", "#CC0000");
-                var hr_to_tr = new Navigation("#hr", "hr_to_tr", "left_arrow", "to Taylor Resevoir", "#tr", "left", "#CC0000");
-                var hr_to_tc = new Navigation("#hr", "hr_to_tc", "right_arrow", "to Taylor Canyon", "#tc", "right", "#CC0000");
-                var tc_to_hr = new Navigation("#tc", "tc_to_hr", "left_arrow", "to Hartman's Rocks", "#hr", "left", "#CC0000");
-                var tc_to_taylor = new Navigation("#tc", "tc_to_taylor", "right_arrow", "to Taylor Hall", "#taylor", "right", "#CC0000");
-                var hurst_to_aspen = new Navigation("#hurst", "hurst_to_aspen", "right_arrow", "To Aspen", "#aspen", "right", "#CC0000"); 
-                
+                var taylor_to_pathway = new Navigation("#taylor", "taylor_to_pathway", "to pathway", "#pathway", "forward", 700, 150); //
+                var pathway_to_hurst = new Navigation("#pathway", "pathway_to_hurst", "to Hurst", "#hurst", "forward", 700, 150);
+                var pathway_to_taylor = new Navigation("#pathway", "pathway_to_taylor", "back to Taylor", "#taylor", "back", 700, 0); //
+                var pathway_to_quigly = new Navigation("#pathway", "pathway_to_quigly", "to Quigly", "#quigley", "right", 800, 130);
+                var hurst_to_pathway = new Navigation("#hurst", "hurst_to_pathway", "back to pathway", "#pathway", "back", 700, 0);
+                var hurst_to_kelley = new Navigation("#hurst", "hurst_to_kelley", "to Kelley Hall", "#kelley", "left", 600, 130);
+                var quigly_to_pathway = new Navigation("#quigley", "quigly_to_pathway", "back to pathway", "#pathway", "left", 600, 130);
+                var kelley_to_hurst = new Navigation("#kelley", "kelley_to_hurst", "to Hurst Hall", "#hurst", "right", 800, 130);
+                var kelley_to_pathway2 = new Navigation("#kelley", "kelley_to_pathway2", "to pathway", "#pathway2", "left", 600, 130);
+                var pathway2_to_library = new Navigation("#pathway2", "pathway2_to_library", "to Library", "#library", "forward", 700, 150);
+                var pathway2_to_kelley = new Navigation("#pathway2", "pathway2_to_kelley", "to Kelley Hall", "#kelley", "back", 700, 0);
+                var library_to_pathway2 = new Navigation("#library", "library_to_pathway2", "to pathway", "#pathway2", "back", 700, 0);
+                var library_to_universitycenter = new Navigation("#library", "library_to_universitycenter", "to University Center", "#universitycenter", "forward", 700, 150);
+                var universitycenter_to_library = new Navigation("#universitycenter", "universitycenter_to_library", "to Library", "#library", "right", 800, 130);
+                var universitycenter_to_footballfield = new Navigation("#universitycenter", "universitycenter_to_footballfield", "to Football Field", "#footballfield", "left", 600, 130);
+                var footballfield_to_universitycenter = new Navigation("#footballfield", "footballfield_to_universitycenter", "to University Center", "#universitycenter", "right", 800, 130);
+                var aspen_to_telluride = new Navigation("#aspen", "aspen_to_telluride", "to Telluride", "#telluride", "right", 800, 130);
+                var telluride_to_aspen = new Navigation("#telluride", "telluride_to_aspen", "to Aspen", "#aspen", "left");
+                var telluride_to_cb = new Navigation("#telluride", "telluride_to_cb", "to Crested Butte", "#cb", "right");
+                var cb_to_telluride = new Navigation("#cb", "cb_to_telluride", "to Telluride", "#telluride", "left");
+                var cb_to_mm = new Navigation("#cb", "cb_to_mm", "to Monarch Mountain", "#mm", "right");
+                var mm_to_cb = new Navigation("#mm", "mm_to_cb", "to Crested Butte", "#cb", "left");
+                var mm_to_tr = new Navigation("#mm", "mm_to_tr", "to Taylor Resevoir", "#tr", "right");
+                var tr_to_mm = new Navigation("#tr", "tr_to_mm", "to Monarch Mountain", "#mm", "left");
+                var tr_to_hr = new Navigation("#tr", "tr_to_hr", "to Hartman's Rocks", "#hr", "right");
+                var hr_to_tr = new Navigation("#hr", "hr_to_tr", "to Taylor Resevoir", "#tr", "left");
+                var hr_to_tc = new Navigation("#hr", "hr_to_tc", "to Taylor Canyon", "#tc", "right");
+                var tc_to_hr = new Navigation("#tc", "tc_to_hr", "to Hartman's Rocks", "#hr", "left");
+                var tc_to_taylor = new Navigation("#tc", "tc_to_taylor", "to Taylor Hall", "#taylor", "right");
+                var hurst_to_aspen = new Navigation("#hurst", "hurst_to_aspen", "To Aspen", "#aspen", "right", 800, 130);
+                var aspen_to_hurst = new Navigation("#aspen", "aspen_to_hurst", "back to Hurst Hall", "#hurst", "left"); 
+
                 var navs = [taylor_to_pathway, pathway_to_hurst, pathway_to_taylor, pathway_to_quigly, hurst_to_pathway,
                     hurst_to_kelley, quigly_to_pathway, kelley_to_hurst, kelley_to_pathway2, pathway2_to_library,
                     pathway2_to_kelley, library_to_pathway2, library_to_universitycenter, universitycenter_to_library,
-                    universitycenter_to_footballfield, footballfield_to_universitycenter, aspen_to_telluride, telluride_to_aspen, 
-                telluride_to_cb, cb_to_telluride, cb_to_mm, mm_to_cb, mm_to_tr, tr_to_mm, tr_to_hr, hr_to_tr, hr_to_tc, tc_to_hr, 
-            tc_to_taylor, hurst_to_aspen];
+                    universitycenter_to_footballfield, footballfield_to_universitycenter, aspen_to_telluride, telluride_to_aspen,
+                    telluride_to_cb, cb_to_telluride, cb_to_mm, mm_to_cb, mm_to_tr, tr_to_mm, tr_to_hr, hr_to_tr, hr_to_tc, tc_to_hr,
+                    tc_to_taylor, hurst_to_aspen, aspen_to_hurst];
 
                 /**
-                 * Creates an instance of a Hotspot 
+                 *  Render all navigation items at the current location
+                 * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#hurst"
+                 */
+                function getNavs(locationTag) {
+                    $('.tipsy:last').remove();
+                    var inner_html = "";
+                    var items = [];
+                    for (var i in navs) {
+                        if (currentLocation.onCampus) {
+                            if (navs[i].tag === locationTag) {
+                                inner_html += "<img onclick=javascript:window.location.hash='" + navs[i].dest + "' class='" +
+                                        navs[i].name + " arrow' src='imgs/nav_arrows/" + navs[i].direction + "_white.png'" +
+                                        "onmouseover=" + "this.src='imgs/nav_arrows/" + navs[i].direction + "_hover.png'" +
+                                        " onmouseout=" + "this.src='imgs/nav_arrows/" + navs[i].direction + "_white.png' " +
+                                        "title='" + navs[i].ttip + "' />";
+                                items.push(navs[i].name);
+                            }
+                            $("#navigation").html(inner_html);
+                            $(".arrow").tipsy({gravity: 's', fade: true, html: true});
+                            for (var i in items) {
+                                for (var j in navs) {
+                                    if (items[i] === navs[j].name) {
+                                        $("." + navs[j].name).css({bottom: navs[j].y + "px", "left": navs[j].x + "px"});
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            if (navs[i].tag === locationTag) {
+                                inner_html += "<img onclick=javascript:window.location.hash='" + navs[i].dest + "' class='" +
+                                        navs[i].direction + "_offcampus arrow' src='imgs/nav_arrows/" + navs[i].direction + "_offcampus.png'" +
+                                        "onmouseover=" + "this.src='imgs/nav_arrows/" + navs[i].direction + "_offcampus_hover.png'" +
+                                        " onmouseout=" + "this.src='imgs/nav_arrows/" + navs[i].direction + "_offcampus.png' " +
+                                        "title='" + navs[i].ttip + "' />";
+                            }
+                            $("#navigation").html(inner_html);
+                            $(".arrow").tipsy({gravity: 's', fade: true, html: true});
+                        }
+                    }
+                }
+
+                /**
+                 * Creates an instance of a Hotspot
                  * @constructor
                  * @this {Hspot}
                  * @param {string} tag The location tag of the hotspot (should be in form # + location, i.e #hurst
                  * @param {string} name The name of the location corresponding to div id to be filled
                  * @param {Number} xLoc The x coordinate of the hotspot.
-                 * @param {Number} yLoc The y coordinate of the hotspot. 
-                 * @param {Number} width The width of the hotspot. 
+                 * @param {Number} yLoc The y coordinate of the hotspot.
+                 * @param {Number} width The width of the hotspot.
                  * @param {Number} height The height of the hotspot.
                  * @param {Number} ttipWidth The width of the tooltip.
-                 * @param {string} image The html code for image, i.e "<img src = . . ."  
+                 * @param {string} image The html code for image, i.e "<img src = . . ."
                  * @param {string} position The position of the tooltip in relation to hspot, i.e. "top", "bottom", "left", "right"
-                 * @param {string} type of hotspot, i.e. "spot", "rect"  
+                 * @param {string} type of hotspot, i.e. "spot", "rect"
                  */
                 function Hspot(tag, name, xLoc, yLoc, width, height, text, ttipWidth, image, position, type) {
                     this.tag = tag;
@@ -183,98 +224,42 @@
                     this.position = position;
                     this.type = type;
                 }
-                ;
 
                 /**
-                 * Hspot object instances 
+                 * Hspot object instances
                  */
-                var taylor_hotspot = new Hspot("#taylor", "taylor_hotspot", 47, 50, 8, 8,
-                        "Taylor Hall <br><br> <a href='panoramas/Taylor_Panorama/Taylor_Panorama.html' TARGET='_blank'>View Panorama</a>",
-                        150, null, "right", "rect");
+                var taylor_hotspot = new Hspot("#taylor", "taylor_hotspot", 70, 30, 15, 30, "Taylor Hall", 100, null, "bottom", "spot");
+                var pathway_hotspot = new Hspot("#pathway", "pathway_hotspot", 70, 30, 8, 8, "some trees", 100, null, "left", "rect");
                 var hurst_hotspot = new Hspot("#hurst", "hurst_hotspot", 50, 34, 30, 30, "This is Hurst, the building above all buildings. Check out the super cool things about it. So much Hurst.", 200, null, "bottom", "spot");
-                var hotspots = [taylor_hotspot, hurst_hotspot];
+                var hotspots = [taylor_hotspot, pathway_hotspot, hurst_hotspot];
 
                 /**
                  * Render all hotspots at the current location
-                 * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#Hurst" 
+                 * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#Hurst"
                  */
                 function getHspots(locationTag) {
                     var inner_html = "";
                     for (var i in hotspots) {
                         if (hotspots[i].tag === locationTag) {
+                            var hotspotsDiv = "#hotspots";
                             inner_html += "<div class='hs-spot-object' data-tint-color='#e52929' data-type=" + hotspots[i].type +
-                                    " data-x =" + hotspots[i].xLoc + " data-y =" + hotspots[i].yLoc +
-                                    " data-width = " + hotspots[i].width + " data-height = " + hotspots[i].height +
-                                    " data-popup-position = " + hotspots[i].position + " data-visible = 'visible'" +
-                                    "data-tooltip-width =" + hotspots[i].ttipWidth +
-                                    " data-tooltip-auto-width= 'false'> " + hotspots[i].text + " </div>";
-                            $(".icon-clear").css({'fill': "black", "color": "white"});
-                            $(location.hash + " .hotspots").html(inner_html);
+                                    " data-x =" + hotspots[i].xLoc + " data-y =" + hotspots[i].yLoc + " data-width = " + hotspots[i].width + " data-height = " + hotspots[i].height + " data-popup-position = " + hotspots[i].position +
+                                    " data-visible = 'visible'" +
+                                    "data-tooltip-width =" + hotspots[i].ttipWidth + " data-tooltip-auto-width= 'false'> " + hotspots[i].text + " </div>";
                         }
                     }
-                    $(location.hash + " .hotspot_wrapper").hotspot({"show_on": "mouseover", "responsive": true});
+                    $(".icon-clear").css({'fill': "black", "color": "white"});
+                    $(hotspotsDiv).html(inner_html);
                 }
 
-                /**
-                 *  Render all navigation items at the current location
-                 * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#hurst" 
-                 */
-                function getNavs(locationTag) {
-                    $('.tipsy:last').remove();
-                    var inner_html = "";
-                    for (var i in navs) {
-                        if (navs[i].tag === locationTag) {
-                            var d = "M526.375,175.442H249.458l101.781-115.23c2.939-5.875-0.006-10.64-6.574-10.64H194.735" +
-                                    "c-15.012,0.003-34.74,30.233-44.538,41.188C132.96,110.028,3.146,254.326,2.204,256.208c-2.938,5.875-2.938,15.404,0,21.279" +
-                                    "L177.52,477.449c2.938,5.875,10.646,10.64,17.215,10.64h149.931c6.57,0,9.514-4.765,6.576-10.64l-98.746-114.347h273.879" +
-                                    "c6.234,0,11.285-5.052,11.285-11.285v-165.09C537.66,180.494,532.609,175.442,526.375,175.442z";
-                            if (navs[i].direction === "forward") {
-                                var flip = "transform='rotate(90,0,0)'";
-                                var viewBox = "'-502 0 1002 800'";
-                            }
-                            if (navs[i].direction === "back") {
-                                flip = "transform='rotate(-90 0 0)'";
-                                viewBox = "'-400 -250 1002 800'";
-                            }
-                            if (navs[i].direction === "right") {
-                                flip = "transform='rotate(180,0,0)'";
-                                viewBox = "'-502 -250 1002 800'";
-                            }
-                            if (navs[i].direction === "left") {
-                                flip = 0;
-                                viewBox = "'-150 -200 1002 800'";
-                            }
-                            inner_html += "<svg " + navs[i].dest + "' class=' " + navs[i].styleClass +
-                                    " icon-clear icon-clear2' version='1.1' x='0px' y='0px' " +
-                                    "width='500' height='200' viewBox= " + viewBox +
-                                    " enable-background='new 200 0 200 502.174' xml:space='preserve'> " +
-                                    "<use xlink:href = '#" + navs[i].name + "' class = 'icon-shadow' transform = 'translate(6, 5)' /> " +
-                                    "<path onclick=javascript:window.location.hash='" + navs[i].dest +
-                                    "' title='" + navs[i].ttip + "' class ='icon-clear2' id='" + navs[i].name + "' " +
-                                    flip + " d=" + d + "/></svg>";
-                            $(location.hash + " .navigation").html(inner_html);
-                            $(".icon-clear").css({"fill": navs[i].fillColor});
-                            $(".icon-clear2").tipsy({gravity: 'nw', fade: true});
-                        }
-                    }
-                }
                 /**
                  * Render main image for the current location
                  * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#hurst"
-                 * locationTag should match image file, i.e "hurst_main.jpg" (substring removes "#") 
+                 * locationTag should match image file, i.e "hurst_main.jpg" (substring removes "#")
                  */
                 function getImage(locationTag) {
-                    $(location.hash + " .main_image").html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");
-                }
-
-                function getLocation(locationTag) {
-                    for (var i in locations) {
-                        if (location.hash === locations[i].tag) {
-                            $(location.hash + " .location-title").html(locations[i].name); //getLocation name here 
-                            $(location.hash + " .expander-demo").html("<p>" + locations[i].description);
-                        }
-                    }
-                    $(location.hash + ' .collapse').collapsiblePanel();
+                    var mainImageDiv = "#main_image";
+                    $(mainImageDiv).html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");
                 }
 
                 /***Currently using location.hash, this will likely be replaced with getLocation()?
@@ -283,299 +268,30 @@
                 $(window).on('hashchange', function () {
                     getImage(location.hash);
                     getLocation(location.hash);
-                    getHspots(location.hash);
                     getNavs(location.hash);
-                    set_body_height();
-                    $(window).bind('resize', function () {
-                        set_body_height();
-                    });
                 });
             });
         </script>
     </head>
     <body class="contextual_navigation">
-        <!-- ISSUE: Content width doesn't appear to be responsive in Firefox-->
-        <!-- Div class names are important for the JS --> 
         <div class="contextual_assets">
             <section class="show" id="start">
                 <a href ="#taylor">
                     <button class="beginButton">Begin Tour</button>
-                </a>                
-            </section> 
-            <section id="taylor">
-                <div class="hotspot_wrapper">                    
-                    <div class="main_image">
-                    </div> 
-                    <div class ="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation">                   
-                </div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
+                </a>
             </section>
-            <section id="pathway">                
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
+            <div id="main_image" class="noselect">
+            </div>
+            <div id="navigation">
+            </div>
+            <div class="caption_wrapper">
+                <div class="caption">
+                    <div class="caption_title">
                     </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation">
-                </div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
+                    <div class="caption_text">
                     </div>
                 </div>
-            </section>
-            <section id="hurst">                
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="quigley">                
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="kelley">               
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="pathway2">               
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="library">
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="universitycenter">
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="footballfield">
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="aspen">
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="telluride">
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="cb">
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="tc">
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="mm">
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="tr">
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
-            <section id="hr">
-                <div class="hotspot_wrapper">
-                    <div class="main_image">
-                    </div> 
-                    <div class="hotspots">                   
-                    </div> 
-                </div>
-                <div class="navigation"></div>
-                <div class="ui-widget collapse">
-                    <div class="expander-demo-control ui-widget-header">
-                        <span class="ui-icon ui-expander floatLeft">+</span>
-                        <span class="location-title" style="display: inline"></span>
-                    </div>
-                    <div class="expander-demo ui-widget-content">                            
-                    </div>
-                </div>
-            </section>
+            </div>
         </div>
     </body>
 </html>
