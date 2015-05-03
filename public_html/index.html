@@ -11,7 +11,6 @@
         <script src="js/jquery.tipsy.js"></script>
         <script type="text/javascript">
             $(function () {
-                $('.caption_wrapper').hide();
                 if (location.hash !== "") {
                     $("#start").removeClass("show");
                 }
@@ -33,7 +32,7 @@
                 function Location(tag, name, locationType, description, onCampus) {
                     this.tag = tag;
                     this.name = name;
-                    this.locationType = locationType; 
+                    this.locationType = locationType;
                     this.description = description;
                     this.onCampus = onCampus;
                 }
@@ -54,30 +53,33 @@
                         "The research hub for campus and a great study spot", true);
                 var universitycenter = new Location("#universitycenter", "University Center", "studentlife",
                         "The hub of student life on campus", true);
-                var footballfield = new Location("#footballfield", "Mountaineer Bowl", "athletic",
+                var mountaineerbowl = new Location("#mountaineerbowl", "Mountaineer Bowl", "athletic",
                         "The world's highest collegiate football stadium", true);
-                var telluride = new Location("#telluride", "Telluride", "offcampus", "Information about Telluride", false);
-                var taylorcanyon = new Location("#tc", "Taylor Canyon", "offcampus", "Information about Taylor Canyon", false);
-                var crestedbutte = new Location("#cb", "Crested Butte", "offcampus", "Info about Crested Butte", false);
-                var monarchmountain = new Location("#mm", "Monarch Mountain", "offcampus", "Info about Monarch Mountain", false);
-                var taylorreservoir = new Location("#tr", "Taylor Reservoir", "offcampus", "Info about Taylor Reservoir", false);
-                var hartmanrocks = new Location("#hr", "Hartman Rocks", "recreation", "Info about Hartman rocks", false);
-                var cbmr = new Location("#cbmr", "Crested Butte Mountain Resort", "offcampus", "Info About Crested Butte Mountain Resort", false);
-                var artscenter = new Location ("#artscenter", "Gunnison Arts Center", "offcampus", "Info about Gunnison Arts Center", false);
-                var wmountain = new Location ("#wmountain", "W Mountain", "offcampus", "Info about W Mountain", false);
+                var telluride = new Location("#telluride", "Telluride", "offcampus", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", false);
+                var taylorcanyon = new Location("#tc", "Taylor Canyon", "offcampus", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", false);
+                var crestedbutte = new Location("#cb", "Crested Butte", "offcampus", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", false);
+                var monarchmountain = new Location("#mm", "Monarch Mountain", "offcampus", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", false);
+                var taylorreservoir = new Location("#tr", "Taylor Reservoir", "offcampus", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", false);
+                var hartmanrocks = new Location("#hr", "Hartman Rocks", "recreation", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", false);
+                var cbmr = new Location("#cbmr", "Crested Butte Mountain Resort", "offcampus", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", false);
+                var artscenter = new Location("#artscenter", "Gunnison Arts Center", "offcampus", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", false);
+                var wmountain = new Location("#wmountain", "W Mountain", "offcampus", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.", false);
 
-                var locations = [taylor, quigley, hurst, kelley, library, universitycenter, footballfield, telluride,
+                var locations = [taylor, quigley, hurst, kelley, library, universitycenter, mountaineerbowl, telluride,
                     taylorcanyon, crestedbutte, monarchmountain, taylorreservoir, hartmanrocks, cbmr, artscenter, wmountain];
 
                 var currentLocation;
 
                 function getLocation(locationTag) {
-                    $('.caption_wrapper:last').hide();
+                    $('.caption_wrapper').hide();
+                    var inner_html = "";
                     for (var i in locations) {
                         if (locationTag === locations[i].tag) {
-                            $(".caption_title").html(locations[i].name); //getLocation name here 
-                            $(".caption_text").html(locations[i].description);
-                            fade();
+                            inner_html = "<div class='caption_wrapper'><div class='caption'><div id='caption_title'>" +
+                                    locations[i].name + "</div><div id='caption_text'>" + locations[i].description +
+                                    "</div></div></div>";
+                            $('#text_overlay').html(inner_html);
+                            $('.caption_wrapper').delay(6000).fadeOut(2000);
                             currentLocation = locations[i];
                             break;
                         }
@@ -85,28 +87,20 @@
                 }
 
                 /**
-                 * Fade in/out text overlay
-                 */
-                function fade() {
-                    $('.caption_wrapper').fadeIn().delay(3000);
-                    $('.caption_wrapper').fadeOut(2000);
-                }
-
-                /**
                  * Creates an instance of a Navigation Item
                  * @constructor
                  * @this {Navigation}
                  * @param {string} tag The location tag of the navigation item (should be in form # + location, i.e #hurst
-                 * @param {string} name The name of the navigation item corresponding to div id to be filled
+                 * @param {string} styleClass The css style class name (no spaces) 
                  * @param {string} ttip Tool tip
                  * @param {string} destination The hash location destination (i.e. "#hurst)
                  * @param {string} direction The direction of navigation arrow (i.e. "back", "forward", "right", "left")
                  * @param {number} x x coordinate in pixels (for on campus) 
                  * @param {number} y y coordinate in pixels (for on campus) 
                  */
-                function Navigation(tag, name, ttip, dest, direction, x, y) {
+                function Navigation(tag, styleClass, ttip, dest, direction, x, y) {
                     this.tag = tag;
-                    this.name = name;
+                    this.styleClass = styleClass;
                     this.ttip = ttip;
                     this.dest = dest;
                     this.direction = direction;
@@ -131,9 +125,9 @@
                 var library_to_pathway2 = new Navigation("#library", "library_to_pathway2", "to pathway", "#pathway2", "back", 700, 0);
                 var library_to_universitycenter = new Navigation("#library", "library_to_universitycenter", "to University Center", "#universitycenter", "forward", 700, 150);
                 var universitycenter_to_library = new Navigation("#universitycenter", "universitycenter_to_library", "to Library", "#library", "right", 800, 130);
-                var universitycenter_to_footballfield = new Navigation("#universitycenter", "universitycenter_to_footballfield", "to Football Field", "#footballfield", "left", 600, 130);
-                var footballfield_to_universitycenter = new Navigation("#footballfield", "footballfield_to_universitycenter", "to University Center", "#universitycenter", "right", 800, 130);
-                
+                var universitycenter_to_mountaineerbowl = new Navigation("#universitycenter", "universitycenter_to_mountaineerbowl", "to Mountaineer Bowl", "#mountaineerbowl", "left", 600, 130);
+                var mountaineerbowl_to_universitycenter = new Navigation("#mountaineerbowl", "mountaineerbowl_to_universitycenter", "to University Center", "#universitycenter", "right", 800, 130);
+
                 var cbmr_to_telluride = new Navigation("#cbmr", "cbmr_to_telluride", "to Telluride", "#telluride", "right", 800, 130);
                 var telluride_to_cbmr = new Navigation("#telluride", "telluride_to_cbmr", "to CBMR", "#cbmr", "left");
                 var telluride_to_cb = new Navigation("#telluride", "telluride_to_cb", "to Crested Butte", "#cb", "right");
@@ -146,17 +140,17 @@
                 var hr_to_tr = new Navigation("#hr", "hr_to_tr", "to Taylor Resevoir", "#tr", "left");
                 var hr_to_tc = new Navigation("#hr", "hr_to_tc", "to Taylor Canyon", "#tc", "right");
                 var tc_to_hr = new Navigation("#tc", "tc_to_hr", "to Hartman's Rocks", "#hr", "left");
-                var tc_to_wmountain = new Navigation("#tc", "tc_to_wmountain", "to W Mountain", "#wmountain", "right"); 
-                var wmountain_to_tc = new Navigation("#wmountain", "wmountain_to_tc", "to Taylor Canyon", "#tc", "left"); 
-                var wmountain_to_artscenter = new Navigation("#wmountain", "wmountain_to_artscenter", "to Arts Center", "#artscenter", "right"); 
-                var artscenter_to_wmountain = new Navigation("#artscenter", "artscenter_to_wmountain", "to W Mountain", "#wmountain", "left"); 
-                var artscenter_to_cbmr = new Navigation("#artscenter", "artscenter_to_cbmr", "to CBMR", "#cbmr", "right"); 
-                var cbmr_to_artscenter = new Navigation("#cbmr", "cbmr_to_artscenter", "to Arts Center", "#artscenter", "left"); 
-              
+                var tc_to_wmountain = new Navigation("#tc", "tc_to_wmountain", "to W Mountain", "#wmountain", "right");
+                var wmountain_to_tc = new Navigation("#wmountain", "wmountain_to_tc", "to Taylor Canyon", "#tc", "left");
+                var wmountain_to_artscenter = new Navigation("#wmountain", "wmountain_to_artscenter", "to Arts Center", "#artscenter", "right");
+                var artscenter_to_wmountain = new Navigation("#artscenter", "artscenter_to_wmountain", "to W Mountain", "#wmountain", "left");
+                var artscenter_to_cbmr = new Navigation("#artscenter", "artscenter_to_cbmr", "to CBMR", "#cbmr", "right");
+                var cbmr_to_artscenter = new Navigation("#cbmr", "cbmr_to_artscenter", "to Arts Center", "#artscenter", "left");
+
                 var navs = [taylor_to_pathway, pathway_to_hurst, pathway_to_taylor, pathway_to_quigly, hurst_to_pathway,
                     hurst_to_kelley, quigly_to_pathway, kelley_to_hurst, kelley_to_pathway2, pathway2_to_library,
                     pathway2_to_kelley, library_to_pathway2, library_to_universitycenter, universitycenter_to_library,
-                    universitycenter_to_footballfield, footballfield_to_universitycenter, cbmr_to_telluride, telluride_to_cbmr,
+                    universitycenter_to_mountaineerbowl, mountaineerbowl_to_universitycenter, cbmr_to_telluride, telluride_to_cbmr,
                     telluride_to_cb, cb_to_telluride, cb_to_mm, mm_to_cb, mm_to_tr, tr_to_mm, tr_to_hr, hr_to_tr, hr_to_tc, tc_to_hr,
                     tc_to_wmountain, wmountain_to_tc, artscenter_to_wmountain, artscenter_to_cbmr, cbmr_to_artscenter, wmountain_to_artscenter];
 
@@ -169,21 +163,23 @@
                     var inner_html = "";
                     var items = [];
                     for (var i in navs) {
-                        if (currentLocation.onCampus) {                           
-                            if (navs[i].tag === locationTag) {                                
-                                inner_html += "<button class='switch_button' onclick=javascript:window.location.hash='#cb'>Go Off Campus</button><img onclick=javascript:window.location.hash='" + navs[i].dest + "' class='" +
-                                        navs[i].name + " arrow' src='imgs/nav_arrows/" + navs[i].direction + "_white.png'" +
+                        if (currentLocation.onCampus) {
+                            if (navs[i].tag === locationTag) {
+                                inner_html += "<button class='switch_button' onclick=javascript:window.location.hash='#cb'>Go Off Campus</button>" +
+                                        "<button class='restart_button' onclick=javascript:window.location=''>Restart Tour</button>" +
+                                        "<img onclick=javascript:window.location.hash='" + navs[i].dest + "' class='" +
+                                        navs[i].styleClass + " arrow' src='imgs/nav_arrows/" + navs[i].direction + "_white.png'" +
                                         "onmouseover=" + "this.src='imgs/nav_arrows/" + navs[i].direction + "_hover.png'" +
                                         " onmouseout=" + "this.src='imgs/nav_arrows/" + navs[i].direction + "_white.png' " +
                                         "title='" + navs[i].ttip + "' />";
-                                items.push(navs[i].name);
+                                items.push(navs[i].styleClass);
                             }
                             $("#navigation").html(inner_html);
                             $(".arrow").tipsy({gravity: 's', fade: true, html: true});
                             for (var i in items) {
                                 for (var j in navs) {
-                                    if (items[i] === navs[j].name) {
-                                        $("." + navs[j].name).css({bottom: navs[j].y + "px", "left": navs[j].x + "px"});
+                                    if (items[i] === navs[j].styleClass) {
+                                        $("." + navs[j].styleClass).css({bottom: navs[j].y + "px", "left": navs[j].x + "px"});
                                     }
                                 }
                             }
@@ -207,41 +203,54 @@
                  * @constructor
                  * @this {Hspot}
                  * @param {string} tag The location tag of the hotspot (should be in form # + location, i.e #hurst
+                 * @param {string} styleClass name of css class (no spaces) 
                  * @param {string} ttip Tooltip for hotspot
-                 * @param {string} dest The destination for hotspot (in form #hurst) 
+                 * @param {string} dest The destination url for hotspot
                  * @param {Number} x The x coordinate of the hotspot (in pixels) 
                  * @param {Number} y The y coordinate of the hotspot (in pixels)
                  */
-                function Hspot(tag, ttip, dest, x, y) {
+                function Hspot(tag, styleClass, ttip, dest, x, y) {
                     this.tag = tag;
-                    this.ttip = ttip; 
-                    this.dest = dest; 
-                    this.x = x; 
-                    this.y = y; 
+                    this.styleClass = styleClass;
+                    this.ttip = ttip;
+                    this.dest = dest;
+                    this.x = x;
+                    this.y = y;
                 }
 
                 /**
                  * Hspot object instances
                  */
-                var taylor_hotspot = new Hspot("#taylor", "view Panorama", "fill", 700, 600);
+                var taylor_hotspot = new Hspot("#taylor", "taylor_panorama_hs", "view Panorama", "panoramas/taylor_panorama/Taylor_Panorama.html", 850, 350);
+                var hotspots = [taylor_hotspot];
 
                 /**
                  * Render all hotspots at the current location
                  * @param {string} locationTag Location tag, should be in form "#" + location, i.e. "#Hurst"
                  */
                 function getHspots(locationTag) {
+                    $('.tipsy:last').remove();
                     var inner_html = "";
+                    var items = [];
                     for (var i in hotspots) {
                         if (hotspots[i].tag === locationTag) {
-                            var hotspotsDiv = "#hotspots";
-                            inner_html += "<div class='hs-spot-object' data-tint-color='#e52929' data-type=" + hotspots[i].type +
-                                    " data-x =" + hotspots[i].xLoc + " data-y =" + hotspots[i].yLoc + " data-width = " + hotspots[i].width + " data-height = " + hotspots[i].height + " data-popup-position = " + hotspots[i].position +
-                                    " data-visible = 'visible'" +
-                                    "data-tooltip-width =" + hotspots[i].ttipWidth + " data-tooltip-auto-width= 'false'> " + hotspots[i].text + " </div>";
+                            inner_html += "<a href=" + hotspots[i].dest + " " + "target='_blank'><img class='" +
+                                    hotspots[i].styleClass + " hotspot' src='imgs/logo_hotspot.png'" +
+                                    "onmouseover=" + "this.src='imgs/logo_hotspot_hover.png'" +
+                                    " onmouseout=" + "this.src='imgs/logo_hotspot.png' " +
+                                    "title='" + hotspots[i].ttip + "' /></a>";
+                            items.push(hotspots[i].styleClass);
+                        }
+                        $("#hotspots").html(inner_html);
+                        $(".hotspot").tipsy({gravity: 'sw', fade: true, html: true});
+                        for (var i in items) {
+                            for (var j in hotspots) {
+                                if (items[i] === hotspots[j].styleClass) {
+                                    $("." + hotspots[j].styleClass).css({bottom: hotspots[j].y + "px", "left": hotspots[j].x + "px"});
+                                }
+                            }
                         }
                     }
-                    $(".icon-clear").css({'fill': "black", "color": "white"});
-                    $(hotspotsDiv).html(inner_html);
                 }
 
                 /**
@@ -254,13 +263,14 @@
                     $(mainImageDiv).html("<img src='imgs/" + locationTag.substring(1) + "_main.jpg'/>");
                 }
 
-                /***Currently using location.hash, this will likely be replaced with getLocation()?
+                /***
                  * Functions above requires the location tag passed in to be # + location tag name. (i.e "#hurst")
                  */
                 $(window).on('hashchange', function () {
                     getImage(location.hash);
                     getLocation(location.hash);
                     getNavs(location.hash);
+                    getHspots(location.hash);
                 });
             });
         </script>
@@ -276,13 +286,9 @@
             </div>
             <div id="navigation">
             </div>
-            <div class="caption_wrapper">
-                <div class="caption">
-                    <div class="caption_title">
-                    </div> 
-                    <div class="caption_text">
-                    </div>
-                </div>
+            <div id ="hotspots">                
+            </div>
+            <div id="text_overlay">           
             </div>
         </div>
     </body>
